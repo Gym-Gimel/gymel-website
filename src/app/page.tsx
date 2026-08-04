@@ -3,10 +3,11 @@ import Link from "next/link";
 import { CourseCard } from "@/components/courses/course-card";
 import { WeeklySchedule } from "@/components/courses/weekly-schedule";
 import { EventCard } from "@/components/events/event-card";
+import { SponsorCard } from "@/components/sponsors/sponsor-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import {
-    anniversarySponsors,
-    historicalSponsors,
+    anniversarySponsorNotes,
+    generalSponsors,
 } from "@/lib/constants/content";
 import { SITE } from "@/lib/constants/site";
 import {
@@ -184,12 +185,10 @@ export default async function HomePage() {
             <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
                 <SectionHeading
                     eyebrow="Partenaires"
-                    title="Sponsors des 125 ans"
+                    title="Sponsors de la Gym"
                 >
-                    La Gym de Gimel remercie les partenaires et sponsors qui
-                    contribuent à la fête des 125 ans. Les logos officiels
-                    doivent encore être récupérés depuis WordPress avant
-                    publication. Contact:{" "}
+                    La Gym de Gimel remercie les sponsors qui soutiennent la vie
+                    de la société. Contact:{" "}
                     <a
                         className="font-bold text-brand"
                         href={`mailto:${SITE.email}`}
@@ -199,42 +198,16 @@ export default async function HomePage() {
                     .
                 </SectionHeading>
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                    {anniversarySponsors.map((sponsor) => (
-                        <article
-                            key={sponsor.name}
-                            className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft"
-                        >
-                            <p className="text-lg font-black text-ink">
-                                {sponsor.name}
-                            </p>
-                            <p className="mt-2 text-sm leading-6 text-stone-600">
-                                {sponsor.note}
-                            </p>
-                            <p className="mt-3 rounded bg-brand-soft px-3 py-2 text-xs font-bold text-brand">
-                                {sponsor.status}
-                            </p>
-                        </article>
+                    {generalSponsors.map((sponsor) => (
+                        <SponsorCard key={sponsor.name} sponsor={sponsor} />
                     ))}
                 </div>
                 <h3 className="mt-10 text-xl font-black text-ink">
-                    Sponsors historiques à vérifier
+                    Mentions liées aux 125 ans à confirmer
                 </h3>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                    {historicalSponsors.map((sponsor) => (
-                        <article
-                            key={sponsor.name}
-                            className="rounded-lg border border-dashed border-stone-300 bg-white p-5"
-                        >
-                            <p className="font-black text-stone-800">
-                                {sponsor.name}
-                            </p>
-                            <p className="mt-2 text-sm leading-6 text-stone-600">
-                                {sponsor.note}
-                            </p>
-                            <p className="mt-3 text-xs font-bold text-stone-500">
-                                {sponsor.status}
-                            </p>
-                        </article>
+                    {anniversarySponsorNotes.map((sponsor) => (
+                        <SponsorCard key={sponsor.name} sponsor={sponsor} dashed />
                     ))}
                 </div>
             </section>

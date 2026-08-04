@@ -82,28 +82,28 @@ export const registrationInfo = {
     "La Gym de Gimel se réserve le droit de photographier ou de filmer ses membres lors des cours, concours, fêtes ou autres manifestations. Toute opposition, ainsi que tout changement d'adresse, de téléphone ou d'e-mail, doit être communiqué par écrit à info@gymel.ch."
 } as const;
 
-export const anniversarySponsors = [
+export const generalSponsors = [
+  {
+    name: "Le Coultre",
+    note: "Sponsor de la Gym de Gimel.",
+    image: "/images/sponsors/le-coultre.jpg"
+  },
+  {
+    name: "Pizzeria Allaman",
+    note: "Sponsor de la Gym de Gimel.",
+    image: "/images/sponsors/pizzeria-allaman.webp"
+  }
+] as const;
+
+export const anniversarySponsorNotes = [
   {
     name: "Banque Raiffeisen",
-    note: "Soutien financier particulièrement important pour la fête des 125 ans.",
-    status: "A récupérer: logo officiel"
+    note: "Soutien financier particulièrement important mentionné pour la fête des 125 ans.",
+    image: null
   },
   {
     name: "Fondation Belle Saison",
     note: "Partenaire affiché sur la page d'accueil actuelle des 125 ans.",
-    status: "A récupérer: image fondation-belle-saison"
-  }
-] as const;
-
-export const historicalSponsors = [
-  {
-    name: "Logos LC vert 2",
-    note: "Visuel sponsor présent sur la page sponsor actuelle.",
-    status: "A identifier précisément avant publication"
-  },
-  {
-    name: "Pizzeria Allaman",
-    note: "Sponsor présent sur la page sponsor actuelle.",
-    status: "A récupérer: logo officiel"
+    image: null
   }
 ] as const;

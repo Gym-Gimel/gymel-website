@@ -31,3 +31,7 @@ export function isPastDate(date: string) {
 export function compareIsoDates(a: string, b: string) {
   return a.localeCompare(b);
 }
+
+export function compareIsoDatesDesc(a: string, b: string) {
+  return b.localeCompare(a);
+}
