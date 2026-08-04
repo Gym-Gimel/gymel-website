@@ -20,6 +20,20 @@ export type Course = {
   note?: string;
 };
 
+export type CourseGroup = {
+  slug: string;
+  name: string;
+  shortDescription: string;
+  fullDescription: string;
+  category: string;
+  ageRange: string;
+  days: string[];
+  status: CourseStatus;
+  image?: string;
+  registrationUrl?: string;
+  sessions: Course[];
+};
+
 export type CompetitionStatus =
   | "draft"
   | "upcoming"

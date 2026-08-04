@@ -3,16 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { getCourseBySlug, getCourses } from "@/lib/data/loaders";
+import { getCourseGroupBySlug, getCourseGroups } from "@/lib/data/loaders";
 
 export async function generateStaticParams() {
-  const courses = await getCourses();
+  const courses = await getCourseGroups();
   return courses.map((course) => ({ slug: course.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const course = await getCourseGroupBySlug(slug);
   if (!course) return {};
   return {
     title: course.name,
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const course = await getCourseGroupBySlug(slug);
   if (!course) notFound();
 
   return (
@@ -34,7 +34,7 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
         <div className="relative aspect-[16/7] min-h-[260px] bg-stone-100">
           {course.image ? <Image src={course.image} alt="" fill className="object-cover" priority /> : null}
         </div>
-        <div className="grid gap-8 p-6 lg:grid-cols-[1fr_280px] lg:p-8">
+        <div className="grid gap-8 p-6 lg:grid-cols-[1fr_320px] lg:p-8">
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <StatusBadge status={course.status} />
@@ -42,7 +42,44 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
             </div>
             <h1 className="mt-4 text-4xl font-black text-ink">{course.name}</h1>
             <p className="mt-4 text-lg leading-8 text-stone-600">{course.fullDescription}</p>
-            {course.note ? <p className="mt-5 rounded bg-gold/10 p-4 text-sm font-semibold text-stone-800">{course.note}</p> : null}
+            <section className="mt-8">
+              <h2 className="text-2xl font-black text-ink">
+                {course.sessions.length > 1 ? "Formats du cours" : "Horaire du cours"}
+              </h2>
+              <div className="mt-4 grid gap-4">
+                {course.sessions.map((session) => (
+                  <article key={session.id} className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <StatusBadge status={session.status} />
+                      {session.note ? (
+                        <span className="rounded bg-gold/10 px-2.5 py-1 text-xs font-bold text-stone-800">{session.note}</span>
+                      ) : null}
+                    </div>
+                    <h3 className="mt-3 text-xl font-black text-ink">{session.name}</h3>
+                    <dl className="mt-4 grid gap-3 text-sm text-stone-700 sm:grid-cols-2">
+                      <div>
+                        <dt className="font-black text-ink">Jour</dt>
+                        <dd className="mt-1">{session.days.join(", ")}</dd>
+                      </div>
+                      <div>
+                        <dt className="font-black text-ink">Horaire</dt>
+                        <dd className="mt-1">
+                          {session.startTime}-{session.endTime}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="font-black text-ink">Lieu</dt>
+                        <dd className="mt-1">{session.location}</dd>
+                      </div>
+                      <div>
+                        <dt className="font-black text-ink">Cotisation</dt>
+                        <dd className="mt-1">{session.price}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))}
+              </div>
+            </section>
           </div>
           <aside className="rounded-lg bg-stone-50 p-5">
             <dl className="grid gap-4 text-sm">
@@ -51,23 +88,17 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
                 <dd className="mt-1 text-stone-600">{course.ageRange}</dd>
               </div>
               <div>
-                <dt className="font-black text-ink">Horaire</dt>
-                <dd className="mt-1 text-stone-600">
-                  {course.days.join(", ")} · {course.startTime}-{course.endTime}
-                </dd>
+                <dt className="font-black text-ink">Jours</dt>
+                <dd className="mt-1 text-stone-600">{course.days.join(", ")}</dd>
               </div>
               <div>
-                <dt className="font-black text-ink">Lieu</dt>
-                <dd className="mt-1 text-stone-600">{course.location}</dd>
-              </div>
-              <div>
-                <dt className="font-black text-ink">Cotisation</dt>
-                <dd className="mt-1 text-stone-600">{course.price}</dd>
+                <dt className="font-black text-ink">Formats</dt>
+                <dd className="mt-1 text-stone-600">{course.sessions.length}</dd>
               </div>
               <div>
                 <dt className="font-black text-ink">Contact</dt>
                 <dd className="mt-1 grid gap-1 text-stone-600">
-                  {course.monitors.map((monitor) => (
+                  {[...new Set(course.sessions.flatMap((session) => session.monitors))].map((monitor) => (
                     <span key={monitor}>{monitor}</span>
                   ))}
                 </dd>

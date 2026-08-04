@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CourseCard } from "@/components/courses/course-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { WEEK_DAYS } from "@/lib/constants/site";
-import { getCourses } from "@/lib/data/loaders";
+import { getCourseGroups } from "@/lib/data/loaders";
 
 export const metadata: Metadata = {
   title: "Nos cours",
@@ -16,7 +16,7 @@ export default async function CoursesPage({
   searchParams: Promise<{ category?: string; day?: string; age?: string; q?: string }>;
 }) {
   const params = await searchParams;
-  const courses = await getCourses();
+  const courses = await getCourseGroups();
   const categories = [...new Set(courses.map((course) => course.category))].sort();
   const ages = [...new Set(courses.map((course) => course.ageRange))].sort();
 
@@ -26,7 +26,10 @@ export default async function CoursesPage({
       (!params.category || course.category === params.category) &&
       (!params.day || course.days.includes(params.day)) &&
       (!params.age || course.ageRange === params.age) &&
-      (!query || `${course.name} ${course.shortDescription} ${course.category}`.toLowerCase().includes(query))
+      (!query ||
+        `${course.name} ${course.shortDescription} ${course.category} ${course.sessions.map((session) => session.name).join(" ")}`
+          .toLowerCase()
+          .includes(query))
     );
   });
 
@@ -91,7 +94,7 @@ export default async function CoursesPage({
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {filtered.map((course) => (
-          <CourseCard key={course.id} course={course} />
+          <CourseCard key={course.slug} course={course} />
         ))}
       </div>
       {filtered.length === 0 ? (

@@ -1,8 +1,9 @@
 import { parseCsvRows } from "@/lib/csv/parse";
+import { combineCourseStatus, getCourseGroupIdentity, sortCourseSessions, uniqueValues } from "@/lib/courses/grouping";
 import { readCsvWithFallback } from "@/lib/data/files";
 import { compareIsoDates } from "@/lib/formatting/date";
 import { competitionSchema, courseSchema, volleyballSchema } from "@/lib/validation/schemas";
-import type { CalendarItem, Competition, Course, VolleyballMatch } from "@/types/data";
+import type { CalendarItem, Competition, Course, CourseGroup, VolleyballMatch } from "@/types/data";
 
 function logErrors(errors: { message: string }[]) {
   if (errors.length > 0) {
@@ -17,9 +18,44 @@ export async function getCourses(): Promise<Course[]> {
   return result.data.sort((a, b) => a.name.localeCompare(b.name, "fr-CH"));
 }
 
-export async function getCourseBySlug(slug: string) {
+export async function getCourseGroups(): Promise<CourseGroup[]> {
   const courses = await getCourses();
-  return courses.find((course) => course.slug === slug);
+  const grouped = new Map<string, Course[]>();
+
+  courses.forEach((course) => {
+    const identity = getCourseGroupIdentity(course);
+    grouped.set(identity.slug, [...(grouped.get(identity.slug) ?? []), course]);
+  });
+
+  const groups: CourseGroup[] = [];
+
+  for (const [slug, sessions] of grouped.entries()) {
+    const sortedSessions = sortCourseSessions(sessions);
+    const primary = sortedSessions[0];
+    if (!primary) continue;
+    const identity = getCourseGroupIdentity(primary);
+
+    groups.push({
+      slug,
+      name: identity.name,
+      shortDescription: primary.shortDescription,
+      fullDescription: primary.fullDescription,
+      category: primary.category,
+      ageRange: uniqueValues(sortedSessions.map((session) => session.ageRange)).join(" / "),
+      days: uniqueValues(sortedSessions.flatMap((session) => session.days)),
+      status: combineCourseStatus(sortedSessions),
+      image: primary.image,
+      registrationUrl: primary.registrationUrl,
+      sessions: sortedSessions
+    });
+  }
+
+  return groups.sort((a, b) => a.name.localeCompare(b.name, "fr-CH"));
+}
+
+export async function getCourseGroupBySlug(slug: string) {
+  const groups = await getCourseGroups();
+  return groups.find((group) => group.slug === slug);
 }
 
 export async function getCompetitions(): Promise<Competition[]> {

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getCourseGroupIdentity } from "@/lib/courses/grouping";
 import { WEEK_DAYS } from "@/lib/constants/site";
 import type { Course } from "@/types/data";
 
@@ -25,7 +26,7 @@ export function WeeklySchedule({ courses, compact = false }: { courses: Course[]
               <ul className="mt-4 grid gap-3 text-sm">
                 {dayCourses.map((course) => (
                   <li key={course.id} className="border-t border-stone-100 pt-3 first:border-t-0 first:pt-0">
-                    <Link href={`/nos-cours/${course.slug}`} className="font-bold text-ink hover:text-brand">
+                    <Link href={`/nos-cours/${getCourseGroupIdentity(course).slug}`} className="font-bold text-ink hover:text-brand">
                       {course.name}
                     </Link>
                     <p className="text-stone-600">

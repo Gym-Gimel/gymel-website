@@ -11,17 +11,19 @@ import {
 import { SITE } from "@/lib/constants/site";
 import {
     getCalendarItems,
+    getCourseGroups,
     getCourses,
     getFeaturedCalendarItems,
 } from "@/lib/data/loaders";
 
 export default async function HomePage() {
-    const [courses, featuredItems, calendarItems] = await Promise.all([
+    const [courses, courseGroups, featuredItems, calendarItems] = await Promise.all([
         getCourses(),
+        getCourseGroups(),
         getFeaturedCalendarItems(3),
         getCalendarItems(),
     ]);
-    const highlightedCourses = courses
+    const highlightedCourses = courseGroups
         .filter((course) =>
             ["Enfants", "Adultes", "Volley", "Compétition"].includes(
                 course.category,
@@ -130,7 +132,7 @@ export default async function HomePage() {
                     </div>
                     <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                         {highlightedCourses.map((course) => (
-                            <CourseCard key={course.id} course={course} />
+                            <CourseCard key={course.slug} course={course} />
                         ))}
                     </div>
                 </div>

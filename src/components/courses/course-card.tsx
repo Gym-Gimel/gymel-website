@@ -1,9 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { StatusBadge } from "@/components/ui/status-badge";
-import type { Course } from "@/types/data";
+import type { CourseGroup } from "@/types/data";
 
-export function CourseCard({ course }: { course: Course }) {
+function formatSession(session: CourseGroup["sessions"][number]) {
+  return `${session.days.join(", ")} · ${session.startTime}-${session.endTime}`;
+}
+
+export function CourseCard({ course }: { course: CourseGroup }) {
   return (
     <article className="grid overflow-hidden rounded-lg border border-stone-200 bg-white shadow-soft">
       <div className="relative aspect-[16/9] bg-stone-100">
@@ -22,9 +26,11 @@ export function CourseCard({ course }: { course: Course }) {
         </div>
         <dl className="grid gap-2 text-sm text-stone-700">
           <div>
-            <dt className="font-bold">Horaire</dt>
-            <dd>
-              {course.days.join(", ")} · {course.startTime}-{course.endTime}
+            <dt className="font-bold">{course.sessions.length > 1 ? "Horaires" : "Horaire"}</dt>
+            <dd className="grid gap-1">
+              {course.sessions.map((session) => (
+                <span key={session.id}>{formatSession(session)}</span>
+              ))}
             </dd>
           </div>
           <div>
