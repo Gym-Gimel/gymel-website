@@ -44,6 +44,16 @@ Les URL distantes sont configurées dans `.env`:
 
 Si une URL est absente ou inaccessible, le site utilise le fichier local correspondant dans `data/`.
 
+## Regroupement des cours
+
+`data/courses.csv` contient des créneaux, pas uniquement des cours publics. Certains créneaux sont regroupés côté serveur dans `src/lib/courses/grouping.ts`:
+
+- Enfantines lundi + mardi -> `enfantines`
+- Agrès à Essertines + Agrès jeudi -> `agres`
+- Volley Femmes + Volley Hommes -> `volley`
+
+Le planning de l'accueil affiche les créneaux bruts. La page `Nos cours` affiche les groupes. Toute nouvelle variante d'un cours existant doit être ajoutée au CSV puis, si elle doit partager une fiche, au regroupement dans `src/lib/courses/grouping.ts`.
+
 ## Validation
 
 Avant de considérer une tâche comme terminée:

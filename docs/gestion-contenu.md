@@ -27,6 +27,42 @@ Les modèles vierges sont dans `data/templates/`.
 - Heure: `HH:mm`, exemple `20:30`.
 - Plusieurs jours ou moniteurs: séparer avec `;`.
 
+## Cours et créneaux
+
+Dans `courses.csv`, une ligne représente un créneau horaire précis, pas forcément un cours unique visible sur la page `Nos cours`.
+
+Exemples:
+
+- `Enfantines` existe deux fois dans le CSV, une fois le lundi et une fois le mardi.
+- `Agrès` existe deux fois dans le CSV, une fois à Essertines le mardi et une fois à Gimel le jeudi.
+- `Volley` existe deux fois dans le CSV, une fois pour les femmes et une fois pour les hommes.
+
+Le site regroupe automatiquement certains créneaux sur la page `Nos cours`:
+
+- `enfantines-lundi` + `enfantines-mardi` deviennent une seule fiche `Enfantines`.
+- `agres-essertines` + `agres` deviennent une seule fiche `Agrès`.
+- `volley-femmes` + `volley-hommes` deviennent une seule fiche `Volley`.
+
+Sur la page d'accueil, le planning affiche toujours les créneaux séparés, car le visiteur doit voir le jour, l'heure et le lieu exacts.
+
+Sur la page `Nos cours`, le visiteur voit un seul cours regroupé. En ouvrant la fiche, il voit ensuite tous les formats disponibles avec leurs horaires, lieux, cotisations et remarques.
+
+### Ajouter un nouveau créneau à un cours existant
+
+Pour ajouter un nouveau créneau à un cours déjà regroupé:
+
+1. ajouter une nouvelle ligne dans `courses.csv`;
+2. utiliser un `id` unique;
+3. utiliser un `slug` clair;
+4. renseigner le jour, l'heure, le lieu et la remarque;
+5. demander à une personne technique d'ajouter ce slug dans `src/lib/courses/grouping.ts` si le créneau doit être regroupé avec un cours existant.
+
+Exemple: si un nouveau créneau `volley-mixte` doit apparaître dans la fiche `Volley`, il faut ajouter la ligne dans le CSV puis ajouter `volley-mixte` au regroupement `volley` dans le code.
+
+### Ajouter un nouveau cours indépendant
+
+Si le cours ne doit pas être regroupé avec un autre, il suffit d'ajouter une ligne dans `courses.csv` avec un slug unique. Le cours apparaîtra automatiquement comme une carte séparée sur `Nos cours`.
+
 ## Statuts autorisés
 
 Cours:
