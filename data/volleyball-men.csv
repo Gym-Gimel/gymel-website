@@ -1,0 +1,4 @@
+id,season,date,time,competition,homeTeam,awayTeam,location,homeScore,awayScore,status,externalUrl
+vm-2026-01,2026,2026-02-12,20:30,Volley-Wellness,Gimel Hommes,Aubonne,Salle omnisports du Marais,,,scheduled,
+vm-2026-02,2026,2026-03-19,20:30,Volley-Wellness,Rolle,Gimel Hommes,Rolle,,,scheduled,
+vm-2025-01,2025,2025-11-06,20:30,Volley-Wellness,Gimel Hommes,Nyon,Salle omnisports du Marais,2,1,finished,

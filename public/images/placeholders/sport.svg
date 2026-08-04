@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Photo de cours à remplacer">
+  <rect width="1200" height="675" fill="#f4f1ed"/>
+  <path d="M220 500 410 180l130 180 120-80 180 220" fill="none" stroke="#b71313" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="900" cy="210" r="74" fill="#d99a2b"/>
+  <text x="650" y="500" font-family="Arial, sans-serif" font-size="48" font-weight="700" fill="#19202a">Photo officielle à ajouter</text>
+</svg>

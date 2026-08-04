@@ -1,0 +1,6 @@
+id,slug,title,startDate,endDate,location,category,group,status,description,registrationUrl,programUrl,resultsUrl,featured
+competition-125ans,125-ans-gym-gimel,125 ans de la Gym de Gimel,2026-08-22,2026-08-23,Gimel,Manifestation,Tous,registration-open,"Week-end de sport, de fête et de convivialité pour célébrer les 125 ans de la Gym de Gimel.",/inscriptions,,,true
+competition-soiree-gym-2025,soiree-de-gym-2025,Soirée de Gym,2025-11-28,2025-11-29,Grande salle de Gimel,Manifestation,Tous,finished,"Soirée de gym avec portes ouvertes, disco familiale et bar.",,,/documents/resultats-exemple.pdf,false
+competition-loto-2026,loto-2026,Loto,2026-01-18,2026-01-18,Grande salle de Gimel,Manifestation,Tous,upcoming,"Loto de la Gym de Gimel à la grande salle.",,,,false
+competition-ag-2026,assemblee-generale-2026,Assemblée Générale,2026-01-29,2026-01-29,Restaurant Pizzeria de la Gare d'Allaman,Assemblée,Membres,upcoming,"Assemblée générale annuelle à 19h00.",,,,false
+competition-concours-agres-demo,concours-agres-demo,Concours agrès régional,2026-05-17,2026-05-17,Aubonne,Concours de gymnastique,Agrès,upcoming,"Concours de démonstration pour tester l'affichage des programmes et résultats.",,,/documents/resultats-exemple.pdf,false
