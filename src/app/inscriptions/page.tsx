@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { registrationInfo } from "@/lib/constants/content";
 import { SITE } from "@/lib/constants/site";
 import { getCourses } from "@/lib/data/loaders";
 
@@ -14,24 +15,55 @@ export default async function RegistrationPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <SectionHeading eyebrow="Inscriptions" title="S'inscrire à la Gym de Gimel">
-        Les inscriptions sont centralisées par cours. Les formulaires officiels WordPress doivent encore être migrés ou reliés.
+        {registrationInfo.intro}
       </SectionHeading>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_360px]">
         <section className="grid gap-5">
-          {[
-            ["Fonctionnement", "Choisissez un cours, vérifiez le statut d'inscription, puis contactez la personne indiquée ou utilisez le formulaire officiel lorsqu'il sera connecté."],
-            ["Cotisations", "Les montants sont affichés sur chaque cours. Le paiement peut être effectué avec l'IBAN de la société."],
-            ["Equipement", "Le bon de commande du nouvel équipement doit être récupéré depuis le site WordPress avant la mise en ligne finale."],
-            ["Démissions", "Une démission doit être transmise par écrit au comité selon les statuts de la société."],
-            ["Photographies", "L'autorisation liée aux photographies et à la protection des données doit être reprise dans les documents officiels."],
-            ["Fermetures annuelles", "Les fermetures seront ajoutées dans un fichier CSV dédié lorsque les dates officielles seront confirmées."]
-          ].map(([title, text]) => (
-            <article key={title} className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
-              <h2 className="text-xl font-black text-ink">{title}</h2>
-              <p className="mt-2 leading-7 text-stone-600">{text}</p>
-            </article>
-          ))}
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Cotisations</h2>
+            <ul className="mt-3 grid gap-2 leading-7 text-stone-600">
+              {registrationInfo.fees.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Formulaire d'inscription</h2>
+            <p className="mt-2 leading-7 text-stone-600">{registrationInfo.registrationForm}</p>
+            <a
+              href={registrationInfo.documents.registrationForm}
+              className="mt-4 inline-flex rounded bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark"
+            >
+              Télécharger le formulaire d'inscription
+            </a>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Commande d'équipements</h2>
+            <p className="mt-2 leading-7 text-stone-600">{registrationInfo.equipment}</p>
+            <a
+              href={registrationInfo.documents.equipmentOrder}
+              className="mt-4 inline-flex rounded border border-brand px-4 py-2 text-sm font-bold text-brand hover:bg-brand-soft"
+            >
+              Télécharger le bon de commande
+            </a>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Démissions</h2>
+            <p className="mt-2 leading-7 text-stone-600">{registrationInfo.resignation}</p>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Informations diverses</h2>
+            <p className="mt-2 leading-7 text-stone-600">{registrationInfo.photos}</p>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Calendrier des fermetures</h2>
+            <ul className="mt-3 grid gap-2 leading-7 text-stone-600">
+              {registrationInfo.closures.map((closure) => (
+                <li key={closure}>{closure}</li>
+              ))}
+            </ul>
+          </article>
         </section>
 
         <aside className="rounded-lg bg-brand p-6 text-white">
@@ -44,10 +76,6 @@ export default async function RegistrationPage() {
                   {SITE.email}
                 </a>
               </dd>
-            </div>
-            <div>
-              <dt className="font-black">Paiement</dt>
-              <dd>{SITE.iban}</dd>
             </div>
             <div>
               <dt className="font-black">Cours ouverts</dt>

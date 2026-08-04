@@ -20,7 +20,8 @@ Le site WordPress actuel reste en ligne pendant le développement. Ne pas modifi
 - Cours principaux et horaires hebdomadaires.
 - 125 ans de la Gym de Gimel les 22 et 23 août 2026.
 - Soirée de Gym, Loto et Assemblée Générale.
-- Comité et e-mails publics.
+- Comité et e-mails publics: Anne Debonneville Messieux, Adriano Schepis, Maud Zumstein, Sophie Debonneville, Pauline Champendal.
+- Sponsors affichés ou mentionnés: Banque Raiffeisen, Fondation Belle Saison, Pizzeria Allaman, visuel "Logos LC vert 2" à identifier.
 - Liens sociaux Instagram et Facebook.
 
 ## Contenus à vérifier
@@ -30,6 +31,7 @@ Le site WordPress actuel reste en ligne pendant le développement. Ne pas modifi
 - Images officielles des groupes.
 - Formulaires d'inscription.
 - Liste complète et actualisée des sponsors.
+- Logos officiels des sponsors des 125 ans.
 - Anciennes URL exactes et redirections finales.
 
 ## Redirections prévues
@@ -39,6 +41,7 @@ Le site WordPress actuel reste en ligne pendant le développement. Ne pas modifi
 - `/enfants/` vers `/nos-cours?category=Enfants`
 - `/calendrier/` vers `/calendrier-sportif`
 - `/le-comite/` vers `/la-societe`
+- `/sponsor/` vers `/sponsors`
 
 ## Mise en ligne
 

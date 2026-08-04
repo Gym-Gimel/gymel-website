@@ -23,6 +23,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/sponsors" className="hover:text-white">
+                Sponsors
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
@@ -33,7 +38,6 @@ export function Footer() {
                 {SITE.email}
               </a>
             </li>
-            <li>IBAN: {SITE.iban}</li>
             <li>
               <a href={SITE.social.facebook} className="hover:text-white">
                 Facebook

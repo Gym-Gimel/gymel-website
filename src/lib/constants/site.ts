@@ -5,7 +5,6 @@ export const SITE = {
   email: "info@gymel.ch",
   address: "Salle omnisports du Marais, 1188 Gimel",
   postalAddress: "Case postale 118, 1188 Gimel",
-  iban: "CH51 0076 7000 U005 3074 0",
   social: {
     facebook: "https://www.facebook.com/gymdegimel",
     instagram: "https://www.instagram.com/gymdegimel/"

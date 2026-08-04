@@ -15,22 +15,29 @@ const targets = [
   uniqueFields: string[];
 }[];
 
-let hasErrors = false;
+async function main() {
+  let hasErrors = false;
 
-for (const target of targets) {
-  const csv = await readLocalCsv(target.key);
-  const result = parseCsvRows<unknown>(target.file, csv, target.schema, target.uniqueFields);
+  for (const target of targets) {
+    const csv = await readLocalCsv(target.key);
+    const result = parseCsvRows<unknown>(target.file, csv, target.schema, target.uniqueFields);
 
-  if (result.errors.length > 0) {
-    hasErrors = true;
-    result.errors.forEach((error) => {
-      console.error(`${error.file}:${error.line}${error.column ? `:${error.column}` : ""}`);
-      console.error(`  Reçu: ${String(error.value ?? "n/a")}`);
-      console.error(`  Attendu: ${error.expected}`);
-    });
-  } else {
-    console.log(`${target.file}: ${result.data.length} lignes valides`);
+    if (result.errors.length > 0) {
+      hasErrors = true;
+      result.errors.forEach((error) => {
+        console.error(`${error.file}:${error.line}${error.column ? `:${error.column}` : ""}`);
+        console.error(`  Reçu: ${String(error.value ?? "n/a")}`);
+        console.error(`  Attendu: ${error.expected}`);
+      });
+    } else {
+      console.log(`${target.file}: ${result.data.length} lignes valides`);
+    }
   }
+
+  if (hasErrors) process.exit(1);
 }
 
-if (hasErrors) process.exit(1);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

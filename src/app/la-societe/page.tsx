@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { committeeMembers } from "@/lib/constants/content";
 
 export const metadata: Metadata = {
   title: "La société",
   description: "Présentation, comité, valeurs et documents de la Gym de Gimel."
 };
-
-const committee = [
-  ["Présidente", "Anne Debonneville Messieux", "president@gymel.ch"],
-  ["Responsable trésorerie", "A confirmer", "caissier@gymel.ch"],
-  ["Responsable administratif", "Maud Zumstein", "secretaire@gymel.ch"],
-  ["Responsable technique", "Sophie Debonneville", "sodebonne73@gmail.com"],
-  ["Responsable des membres", "Pauline Champendal", "paulinec@gymel.ch"],
-  ["Responsable communication", "A confirmer", ""]
-];
 
 export default function SocietyPage() {
   return (
@@ -35,16 +28,29 @@ export default function SocietyPage() {
 
       <section className="mt-12">
         <h2 className="text-2xl font-black text-ink">Comité</h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {committee.map(([role, name, email]) => (
-            <article key={role} className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
-              <p className="text-sm font-black uppercase tracking-wide text-brand">{role}</p>
-              <h3 className="mt-2 text-xl font-black text-ink">{name}</h3>
-              {email ? (
-                <a className="mt-2 block text-sm font-semibold text-stone-600 hover:text-brand" href={`mailto:${email}`}>
-                  {email}
-                </a>
-              ) : null}
+        <div className="relative mt-5 aspect-[2560/1493] overflow-hidden rounded-lg bg-stone-100 shadow-soft">
+          <Image
+            src="/images/comite.jpg"
+            alt="Membres du comité de la Gym de Gimel"
+            fill
+            className="object-cover"
+            sizes="(min-width: 1280px) 1152px, calc(100vw - 32px)"
+            priority
+          />
+        </div>
+        <div className="mt-5 grid gap-5 lg:grid-cols-2">
+          {committeeMembers.map((member) => (
+            <article key={member.email} className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+              <p className="text-sm font-black uppercase tracking-wide text-brand">{member.role}</p>
+              <h3 className="mt-2 text-xl font-black text-ink">{member.name}</h3>
+              <div className="mt-4 grid gap-3 text-sm leading-6 text-stone-600">
+                {member.bio.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <a className="mt-3 block text-sm font-semibold text-stone-600 hover:text-brand" href={`mailto:${member.email}`}>
+                {member.email}
+              </a>
             </article>
           ))}
         </div>

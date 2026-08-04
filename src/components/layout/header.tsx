@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -18,7 +19,16 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3 font-bold text-ink" onClick={() => setIsOpen(false)}>
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-sm font-black text-white">GG</span>
+          <span className="relative block h-12 w-16 overflow-hidden rounded bg-white">
+            <Image
+              src="/images/home.png"
+              alt="Logo Gym de Gimel"
+              fill
+              className="object-contain"
+              sizes="64px"
+              priority
+            />
+          </span>
           <span className="leading-tight">
             <span className="block text-base">Gym de Gimel</span>
             <span className="block text-xs font-semibold text-stone-500">Société sportive</span>

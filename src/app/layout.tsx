@@ -11,6 +11,16 @@ export const metadata: Metadata = {
     template: "%s | Gym de Gimel"
   },
   description: "Cours, calendrier sportif, inscriptions et événements de la société Gym de Gimel.",
+  icons: {
+    icon: [
+      {
+        url: "/images/home.png",
+        type: "image/png"
+      }
+    ],
+    shortcut: "/images/home.png",
+    apple: "/images/home.png"
+  },
   openGraph: {
     title: "Gym de Gimel",
     description: "Une société sportive locale, dynamique et ouverte à toutes les générations.",

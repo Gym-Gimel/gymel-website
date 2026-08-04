@@ -9,7 +9,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "validate:data": "tsx scripts/validate-data.ts"
+    "validate:data": "node --import tsx scripts/validate-data.ts"
   },
   "dependencies": {
     "csv-parse": "^5.6.0",

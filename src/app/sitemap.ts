@@ -4,7 +4,16 @@ import { getCompetitions, getCourses } from "@/lib/data/loaders";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [courses, competitions] = await Promise.all([getCourses(), getCompetitions()]);
-  const staticRoutes = ["", "/nos-cours", "/calendrier-sportif", "/evenements", "/inscriptions", "/la-societe", "/contact"];
+  const staticRoutes = [
+    "",
+    "/nos-cours",
+    "/calendrier-sportif",
+    "/evenements",
+    "/inscriptions",
+    "/la-societe",
+    "/contact",
+    "/sponsors"
+  ];
 
   return [
     ...staticRoutes.map((route) => ({
