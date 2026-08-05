@@ -7,27 +7,35 @@ import type { CalendarItem } from "@/types/data";
 
 export const metadata: Metadata = {
   title: "Calendrier sportif",
-  description: "Concours de gymnastique, matchs de volley, résultats et événements sportifs de la Gym de Gimel."
+  description:
+    "Concours de gymnastique, matchs de volley, résultats et événements sportifs de la Gym de Gimel.",
 };
 
 const filters = [
   { label: "Tous", value: "" },
   { label: "Concours de gymnastique", value: "competition" },
   { label: "Volley féminin", value: "volley-women" },
-  { label: "Volley masculin", value: "volley-men" }
+  { label: "Volley masculin", value: "volley-men" },
 ] as const;
 
-export default async function SportsCalendarPage({ searchParams }: { searchParams: Promise<{ type?: CalendarItem["type"] }> }) {
+export default async function SportsCalendarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: CalendarItem["type"] }>;
+}) {
   const params = await searchParams;
   const items = await getCalendarItems();
-  const filtered = (params.type ? items.filter((item) => item.type === params.type) : items).sort((a, b) =>
-    compareIsoDatesDesc(a.date, b.date)
-  );
+  const filtered = (
+    params.type ? items.filter((item) => item.type === params.type) : items
+  ).sort((a, b) => compareIsoDatesDesc(a.date, b.date));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <SectionHeading eyebrow="Calendrier" title="Calendrier sportif">
-        Les concours et matchs sont récupérés côté serveur, validés, puis regroupés automatiquement par mois.
+        Bienvenue sur le calendrier sportif de la Gym de Gimel. Retrouvez ici
+        les concours de gymnastique, les matchs de volley et les événements
+        sportifs organisés par la société. Les résultats des manifestations sont
+        également publiés dans cette section.
       </SectionHeading>
       <form className="mt-8 flex flex-wrap gap-2" action="/calendrier-sportif">
         {filters.map((filter) => (
