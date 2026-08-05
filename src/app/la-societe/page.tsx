@@ -1,29 +1,58 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { committeeMembers } from "@/lib/constants/content";
+import { committeeMembers, registrationInfo } from "@/lib/constants/content";
 
 export const metadata: Metadata = {
   title: "La société",
-  description: "Présentation, comité, valeurs et documents de la Gym de Gimel."
+  description: "Présentation, comité, valeurs et documents de la Gym de Gimel.",
 };
+
+const importantDocuments = [
+  {
+    title: "Statuts de la société",
+    description: "Version officielle des statuts de la Gym de Gimel.",
+    href: "/documents/statuts-05-10-2018.pdf",
+  },
+  {
+    title: "Protection des données",
+    description: "Déclaration relative au traitement des données personnelles.",
+    href: "/documents/declaration-protection-donnees.pdf",
+  },
+  {
+    title: "Formulaire d'inscription 2026-2027",
+    description: "Document officiel pour rejoindre la Gym de Gimel.",
+    href: registrationInfo.documents.registrationForm,
+  },
+  {
+    title: "Bon de commande d'équipement",
+    description: "Formulaire pour commander les équipements de la société.",
+    href: registrationInfo.documents.equipmentOrder,
+  },
+] as const;
 
 export default function SocietyPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <SectionHeading eyebrow="Société" title="La Gym de Gimel">
-        Une société sportive locale qui encourage le mouvement, la santé, la vie associative et la convivialité à Gimel.
+        Une société sportive locale qui encourage le mouvement, la santé, la vie
+        associative et la convivialité à Gimel.
       </SectionHeading>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
-        {["Mouvement pour tous", "Esprit d'équipe", "Engagement bénévole"].map((value) => (
-          <article key={value} className="rounded-lg border border-stone-200 bg-white p-6 shadow-soft">
-            <h2 className="text-xl font-black text-brand">{value}</h2>
-            <p className="mt-3 leading-7 text-stone-600">
-              Une valeur à préciser avec les textes officiels de la société avant la publication finale.
-            </p>
-          </article>
-        ))}
+        {["Mouvement pour tous", "Esprit d'équipe", "Engagement bénévole"].map(
+          (value) => (
+            <article
+              key={value}
+              className="rounded-lg border border-stone-200 bg-white p-6 shadow-soft"
+            >
+              <h2 className="text-xl font-black text-brand">{value}</h2>
+              <p className="mt-3 leading-7 text-stone-600">
+                TODO : Mettre à jour
+              </p>
+            </article>
+          ),
+        )}
       </div>
 
       <section className="mt-12">
@@ -40,15 +69,25 @@ export default function SocietyPage() {
         </div>
         <div className="mt-5 grid gap-5 lg:grid-cols-2">
           {committeeMembers.map((member) => (
-            <article key={member.email} className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
-              <p className="text-sm font-black uppercase tracking-wide text-brand">{member.role}</p>
-              <h3 className="mt-2 text-xl font-black text-ink">{member.name}</h3>
+            <article
+              key={member.email}
+              className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft"
+            >
+              <p className="text-sm font-black uppercase tracking-wide text-brand">
+                {member.role}
+              </p>
+              <h3 className="mt-2 text-xl font-black text-ink">
+                {member.name}
+              </h3>
               <div className="mt-4 grid gap-3 text-sm leading-6 text-stone-600">
                 {member.bio.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
-              <a className="mt-3 block text-sm font-semibold text-stone-600 hover:text-brand" href={`mailto:${member.email}`}>
+              <a
+                className="mt-3 block text-sm font-semibold text-stone-600 hover:text-brand"
+                href={`mailto:${member.email}`}
+              >
                 {member.email}
               </a>
             </article>
@@ -58,10 +97,26 @@ export default function SocietyPage() {
 
       <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6 shadow-soft">
         <h2 className="text-2xl font-black text-ink">Documents importants</h2>
-        <p className="mt-3 leading-7 text-stone-600">
-          Les statuts, la déclaration de protection des données et le bon de commande de l'équipement doivent être récupérés
-          depuis WordPress et placés dans <code className="rounded bg-stone-100 px-1">public/documents</code>.
-        </p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          {importantDocuments.map((document) => (
+            <a
+              key={document.href}
+              href={document.href}
+              download
+              className="block rounded-lg border border-stone-200 p-4 transition hover:border-brand hover:bg-brand-soft"
+            >
+              <p className="text-xs font-black uppercase tracking-wide text-brand">
+                PDF
+              </p>
+              <h3 className="mt-2 text-lg font-black text-ink">
+                {document.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-stone-600">
+                {document.description}
+              </p>
+            </a>
+          ))}
+        </div>
       </section>
     </div>
   );
