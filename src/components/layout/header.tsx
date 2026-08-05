@@ -52,19 +52,34 @@ export function Header() {
           <a href={`mailto:${SITE.email}`} className="text-sm font-semibold text-stone-600 hover:text-brand">
             {SITE.email}
           </a>
-          <Link className="rounded bg-brand px-4 py-2 text-sm font-bold text-white shadow-soft hover:bg-brand-dark" href="/inscriptions">
-            S'inscrire
-          </Link>
         </div>
 
         <button
           type="button"
-          className="rounded border border-stone-300 px-3 py-2 text-sm font-bold text-ink lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded border border-stone-300 text-ink lg:hidden"
+          aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsOpen((value) => !value)}
         >
-          Menu
+          <span className="sr-only">{isOpen ? "Fermer le menu" : "Ouvrir le menu"}</span>
+          <span className="grid w-5 gap-1.5" aria-hidden="true">
+            <span
+              className={`h-0.5 rounded-full bg-current transition ${
+                isOpen ? "translate-y-2 rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`h-0.5 rounded-full bg-current transition ${
+                isOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`h-0.5 rounded-full bg-current transition ${
+                isOpen ? "-translate-y-2 -rotate-45" : ""
+              }`}
+            />
+          </span>
         </button>
       </div>
 
@@ -82,13 +97,6 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/inscriptions"
-              onClick={() => setIsOpen(false)}
-              className="mt-2 rounded bg-brand px-3 py-3 text-center font-bold text-white"
-            >
-              S'inscrire
-            </Link>
           </div>
         </nav>
       ) : null}
