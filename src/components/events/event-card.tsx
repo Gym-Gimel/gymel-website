@@ -4,7 +4,10 @@ import { formatDateRange } from "@/lib/formatting/date";
 import type { CalendarItem } from "@/types/data";
 
 export function EventCard({ item }: { item: CalendarItem }) {
-  const date = item.type === "competition" ? formatDateRange(item.date, item.endDate) : `${formatDateRange(item.date)} · ${item.time}`;
+  const date =
+    item.type === "competition" || item.type === "event"
+      ? formatDateRange(item.date, item.endDate)
+      : `${formatDateRange(item.date)} · ${item.time}`;
 
   return (
     <article className="grid gap-4 rounded-lg border border-stone-200 bg-white p-5 shadow-soft">

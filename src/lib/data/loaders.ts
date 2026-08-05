@@ -5,10 +5,16 @@ import { compareIsoDates } from "@/lib/formatting/date";
 import { competitionSchema, courseSchema, volleyballSchema } from "@/lib/validation/schemas";
 import type { CalendarItem, Competition, Course, CourseGroup, VolleyballMatch } from "@/types/data";
 
+const SPORTS_COMPETITION_CATEGORY = "Concours de gymnastique";
+
 function logErrors(errors: { message: string }[]) {
   if (errors.length > 0) {
     console.warn(errors.map((error) => error.message).join("\n"));
   }
+}
+
+export function isSportsCompetition(competition: Pick<Competition, "category">) {
+  return competition.category === SPORTS_COMPETITION_CATEGORY;
 }
 
 export async function getCourses(): Promise<Course[]> {
@@ -65,9 +71,24 @@ export async function getCompetitions(): Promise<Competition[]> {
   return result.data.sort((a, b) => compareIsoDates(a.startDate, b.startDate));
 }
 
-export async function getCompetitionBySlug(slug: string) {
+export async function getSportsCompetitions() {
   const competitions = await getCompetitions();
+  return competitions.filter(isSportsCompetition);
+}
+
+export async function getEventCompetitions() {
+  const competitions = await getCompetitions();
+  return competitions.filter((competition) => !isSportsCompetition(competition));
+}
+
+export async function getCompetitionBySlug(slug: string) {
+  const competitions = await getSportsCompetitions();
   return competitions.find((competition) => competition.slug === slug);
+}
+
+export async function getEventBySlug(slug: string) {
+  const events = await getEventCompetitions();
+  return events.find((event) => event.slug === slug);
 }
 
 async function getVolleyball(key: "volleyballMen" | "volleyballWomen", league: VolleyballMatch["league"]) {
@@ -86,7 +107,7 @@ export async function getVolleyballMatches() {
 }
 
 export async function getCalendarItems(): Promise<CalendarItem[]> {
-  const [competitions, volleyballMatches] = await Promise.all([getCompetitions(), getVolleyballMatches()]);
+  const [competitions, volleyballMatches] = await Promise.all([getSportsCompetitions(), getVolleyballMatches()]);
 
   const competitionItems: CalendarItem[] = competitions.map((competition) => ({
     id: competition.id,
@@ -125,7 +146,31 @@ export async function getCalendarItems(): Promise<CalendarItem[]> {
   return [...competitionItems, ...volleyItems].sort((a, b) => compareIsoDates(a.date, b.date));
 }
 
+export async function getEventItems(): Promise<CalendarItem[]> {
+  const events = await getEventCompetitions();
+
+  return events.map((event) => ({
+    id: event.id,
+    type: "event",
+    slug: event.slug,
+    title: event.title,
+    date: event.startDate,
+    endDate: event.endDate,
+    location: event.location,
+    category: event.category,
+    status: event.status,
+    description: event.description,
+    href: `/evenements/${event.slug}`,
+    featured: event.featured,
+    registrationUrl: event.registrationUrl,
+    programUrl: event.programUrl,
+    resultsUrl: event.resultsUrl
+  }));
+}
+
 export async function getFeaturedCalendarItems(limit = 3) {
-  const items = await getCalendarItems();
-  return items.filter((item) => item.type === "competition" && item.featured).slice(0, limit);
+  const [calendarItems, eventItems] = await Promise.all([getCalendarItems(), getEventItems()]);
+  return [...eventItems, ...calendarItems]
+    .filter((item) => (item.type === "competition" || item.type === "event") && item.featured)
+    .slice(0, limit);
 }

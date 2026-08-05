@@ -1,12 +1,16 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { formatDateRange } from "@/lib/formatting/date";
-import { getCompetitionBySlug, getCompetitions } from "@/lib/data/loaders";
+import {
+  getCompetitionBySlug,
+  getEventBySlug,
+  getSportsCompetitions,
+} from "@/lib/data/loaders";
 
 export async function generateStaticParams() {
-  const competitions = await getCompetitions();
+  const competitions = await getSportsCompetitions();
   return competitions.map((competition) => ({ slug: competition.slug }));
 }
 
@@ -23,6 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function CompetitionDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const competition = await getCompetitionBySlug(slug);
+  if (!competition && (await getEventBySlug(slug))) {
+    redirect(`/evenements/${slug}`);
+  }
   if (!competition) notFound();
 
   return (

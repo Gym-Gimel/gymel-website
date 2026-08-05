@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EventCard } from "@/components/events/event-card";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { getCalendarItems } from "@/lib/data/loaders";
+import { getEventItems } from "@/lib/data/loaders";
 
 export const metadata: Metadata = {
   title: "Evénements",
@@ -9,11 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function EventsPage() {
-  const items = (await getCalendarItems()).filter(
-    (item) =>
-      item.type === "competition" &&
-      item.category !== "Concours de gymnastique",
-  );
+  const items = await getEventItems();
   const upcoming = items.filter((item) => item.status !== "finished");
   const archived = items.filter((item) => item.status === "finished");
 

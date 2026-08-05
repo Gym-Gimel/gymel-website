@@ -8,8 +8,10 @@ Le site utilise Next.js App Router.
 - `/nos-cours`: liste filtrable des cours.
 - `/nos-cours/[slug]`: détail de cours.
 - `/calendrier-sportif`: calendrier regroupé par mois.
-- `/calendrier-sportif/concours/[slug]`: détail de concours ou manifestation.
-- `/evenements`, `/inscriptions`, `/la-societe`, `/contact`: pages secondaires structurées.
+- `/calendrier-sportif/concours/[slug]`: détail de concours sportif.
+- `/evenements`: liste des manifestations non sportives.
+- `/evenements/[slug]`: détail de manifestation.
+- `/inscriptions`, `/la-societe`, `/contact`: pages secondaires structurées.
 
 ## Données
 

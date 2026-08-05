@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parseCsvRows } from "@/lib/csv/parse";
+import { isSportsCompetition } from "@/lib/data/loaders";
 import { competitionSchema, courseSchema } from "@/lib/validation/schemas";
 import type { Competition, Course } from "@/types/data";
 
@@ -42,5 +43,13 @@ describe("CSV validation", () => {
 
     expect(result.data).toHaveLength(0);
     expect(result.errors[0]?.column).toBe("endDate");
+  });
+
+  it("keeps only gymnastics competitions in the sports calendar", () => {
+    expect(
+      isSportsCompetition({ category: "Concours de gymnastique" }),
+    ).toBe(true);
+    expect(isSportsCompetition({ category: "Manifestation" })).toBe(false);
+    expect(isSportsCompetition({ category: "Assemblée" })).toBe(false);
   });
 });

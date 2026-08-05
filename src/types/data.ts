@@ -97,6 +97,23 @@ export type CalendarItem =
     }
   | {
       id: string;
+      type: "event";
+      slug: string;
+      title: string;
+      date: string;
+      endDate?: string;
+      location: string;
+      category: string;
+      status: CompetitionStatus;
+      description: string;
+      href: string;
+      featured: boolean;
+      registrationUrl?: string;
+      programUrl?: string;
+      resultsUrl?: string;
+    }
+  | {
+      id: string;
       type: "volley-men" | "volley-women";
       title: string;
       date: string;
