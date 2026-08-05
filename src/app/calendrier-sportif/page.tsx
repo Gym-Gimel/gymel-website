@@ -35,7 +35,7 @@ export default async function SportsCalendarPage({
         Bienvenue sur le calendrier sportif de la Gym de Gimel. Retrouvez ici
         les concours de gymnastique, les matchs de volley et les événements
         sportifs organisés par la société. Les résultats des manifestations sont
-        également publiés dans cette section.
+        également publiés sur cette page.
       </SectionHeading>
       <form className="mt-8 flex flex-wrap gap-2" action="/calendrier-sportif">
         {filters.map((filter) => (
