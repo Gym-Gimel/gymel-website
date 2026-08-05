@@ -8,7 +8,8 @@ export function Footer() {
         <div>
           <p className="text-xl font-black">Gym de Gimel</p>
           <p className="mt-3 max-w-md text-sm leading-6 text-stone-300">
-            Société sportive locale fondée sur le mouvement, la convivialité et l'engagement bénévole.
+            Société sportive locale fondée sur le mouvement, la convivialité et
+            l'engagement bénévole.
           </p>
           <p className="mt-4 text-sm text-stone-300">{SITE.address}</p>
           <p className="text-sm text-stone-300">{SITE.postalAddress}</p>
@@ -51,7 +52,16 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-stone-400">
-        © {new Date().getFullYear()} Gym de Gimel. Nouvelle version en préparation, sans modification du site WordPress actuel.
+        © 2026 Gym de Gimel. Tous droits réservés. Réalisé par{" "}
+        <a
+          href="https://www.daviddieperink.ch"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-bold text-white hover:underline"
+        >
+          David Dieperink
+        </a>
+        .
       </div>
     </footer>
   );
