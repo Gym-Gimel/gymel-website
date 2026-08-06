@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { committeeMembers, registrationInfo } from "@/lib/constants/content";
 
@@ -39,24 +40,29 @@ export default function SocietyPage() {
         associative et la convivialité à Gimel.
       </SectionHeading>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-3">
-        {["Mouvement pour tous", "Esprit d'équipe", "Engagement bénévole"].map(
-          (value) => (
-            <article
+      <section className="mt-10">
+        <h2 className="text-2xl font-black text-ink">Nos valeurs</h2>
+        <div className="mt-5 flex flex-wrap gap-3">
+          {[
+            "Mouvement pour tous",
+            "Esprit d'équipe",
+            "Engagement bénévole",
+            "Convivialité",
+            "Transmission",
+            "Plaisir de bouger",
+          ].map((value) => (
+            <span
               key={value}
-              className="rounded-lg border border-stone-200 bg-white p-6 shadow-soft"
+              className="rounded-full border border-brand/20 bg-brand-soft px-4 py-2 text-sm font-bold text-brand"
             >
-              <h2 className="text-xl font-black text-brand">{value}</h2>
-              <p className="mt-3 leading-7 text-stone-600">
-                TODO : Mettre à jour
-              </p>
-            </article>
-          ),
-        )}
-      </div>
+              {value}
+            </span>
+          ))}
+        </div>
+      </section>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-black text-ink">Comité</h2>
+        <h2 className="text-2xl font-black text-ink">Le Comité</h2>
         <div className="relative mt-5 aspect-[2560/1493] overflow-hidden rounded-lg bg-stone-100 shadow-soft">
           <Image
             src="/images/comite.jpg"
@@ -93,6 +99,27 @@ export default function SocietyPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6 shadow-soft">
+        <p className="text-sm font-black uppercase tracking-wide text-brand">
+          Spectacles
+        </p>
+        <h2 className="mt-2 text-2xl font-black text-ink">
+          Costumes & accessoires
+        </h2>
+        <p className="mt-3 max-w-3xl leading-7 text-stone-600">
+          La société dispose d'un stock de costumes et d'accessoires de scène
+          constitué au fil des spectacles. Certaines pièces peuvent être
+          proposées à la location ou à l'achat pour d'autres sociétés et
+          associations.
+        </p>
+        <Link
+          href="/costumes-accessoires"
+          className="mt-5 inline-flex rounded bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark"
+        >
+          Voir les informations
+        </Link>
       </section>
 
       <section className="mt-12 rounded-lg border border-stone-200 bg-white p-6 shadow-soft">

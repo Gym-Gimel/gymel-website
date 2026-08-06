@@ -20,7 +20,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/inscriptions",
     "/la-societe",
     "/contact",
-    "/sponsors"
+    "/sponsors",
+    "/costumes-accessoires"
   ];
 
   return [

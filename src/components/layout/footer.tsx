@@ -29,6 +29,11 @@ export function Footer() {
                 Sponsors
               </Link>
             </li>
+            <li>
+              <Link href="/costumes-accessoires" className="hover:text-white">
+                Costumes & accessoires
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
