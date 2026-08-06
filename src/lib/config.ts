@@ -5,6 +5,7 @@ function readPositiveInteger(value: string | undefined, fallback: number) {
 }
 
 export const csvConfig = {
+  useRemoteSources: process.env.CSV_SOURCE === "remote",
   revalidateSeconds: readPositiveInteger(process.env.CSV_REVALIDATE_SECONDS, 300),
   sources: {
     courses: process.env.COURSES_CSV_URL,

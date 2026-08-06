@@ -111,16 +111,3 @@ export const generalSponsors = [
     image: "/images/sponsors/pizzeria-allaman.webp"
   }
 ] as const;
-
-export const anniversarySponsorNotes = [
-  {
-    name: "Banque Raiffeisen",
-    note: "Soutien financier particulièrement important mentionné pour la fête des 125 ans.",
-    image: null
-  },
-  {
-    name: "Fondation Belle Saison",
-    note: "Partenaire affiché sur la page d'accueil actuelle des 125 ans.",
-    image: null
-  }
-] as const;

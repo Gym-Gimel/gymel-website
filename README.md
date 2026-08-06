@@ -20,6 +20,7 @@ npm run dev
 Les CSV peuvent venir de GitHub:
 
 ```env
+CSV_SOURCE=local
 COMPETITIONS_CSV_URL=
 VOLLEYBALL_MEN_CSV_URL=
 VOLLEYBALL_WOMEN_CSV_URL=
@@ -28,7 +29,7 @@ CSV_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-En développement, les fichiers locaux dans `data/` sont utilisés par défaut pour voir immédiatement les modifications. En production, les URLs distantes sont utilisées lorsqu'elles sont configurées, avec fallback local si la récupération échoue.
+Par défaut, les fichiers locaux dans `data/` sont utilisés. Pour utiliser les URLs distantes, définir `CSV_SOURCE=remote`; une erreur de récupération distante déclenche alors le fallback local.
 
 ## Commandes
 

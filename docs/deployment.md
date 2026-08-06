@@ -8,15 +8,19 @@
 4. Vérifier les pages principales.
 5. Déployer en production uniquement après validation humaine.
 
-## Cache CSV
+## Source CSV
 
-Les CSV distants utilisent la revalidation Next.js. La durée est contrôlée par:
+Par défaut, le site lit les fichiers locaux dans `data/` afin que le contenu versionné dans le dépôt soit la source publiée. Pour utiliser les CSV distants, définir:
+
+```env
+CSV_SOURCE=remote
+```
+
+Les CSV distants utilisent alors la revalidation Next.js. La durée est contrôlée par:
 
 ```env
 CSV_REVALIDATE_SECONDS=300
 ```
-
-En développement, le site lit les fichiers locaux dans `data/` afin que les modifications de contenu soient visibles immédiatement. Les URLs distantes sont utilisées en production lorsqu'elles sont configurées.
 
 ## Secrets
 

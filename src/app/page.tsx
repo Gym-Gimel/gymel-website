@@ -5,10 +5,7 @@ import { WeeklySchedule } from "@/components/courses/weekly-schedule";
 import { EventCard } from "@/components/events/event-card";
 import { SponsorCard } from "@/components/sponsors/sponsor-card";
 import { SectionHeading } from "@/components/ui/section-heading";
-import {
-  anniversarySponsorNotes,
-  generalSponsors,
-} from "@/lib/constants/content";
+import { generalSponsors } from "@/lib/constants/content";
 import { SITE } from "@/lib/constants/site";
 import {
   getCalendarItems,
@@ -72,24 +69,6 @@ export default async function HomePage() {
               className="object-cover"
             />
           </div>
-        </div>
-      </section>
-
-      <section className="bg-brand text-white">
-        <div className="mx-auto grid max-w-7xl gap-4 px-4 py-6 sm:px-6 md:grid-cols-[1fr_auto] md:items-center lg:px-8">
-          <div>
-            <p className="text-xl font-black">125 ans de la Gym de Gimel</p>
-            <p className="mt-1 text-sm text-white/85">
-              Rendez-vous les 22 et 23 août 2026 pour un week-end de fête, de
-              sport et de convivialité.
-            </p>
-          </div>
-          <Link
-            href="/evenements/125-ans-gym-gimel"
-            className="rounded bg-white px-4 py-2 text-center font-bold text-brand"
-          >
-            Voir le détail
-          </Link>
         </div>
       </section>
 
@@ -180,14 +159,6 @@ export default async function HomePage() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {generalSponsors.map((sponsor) => (
             <SponsorCard key={sponsor.name} sponsor={sponsor} />
-          ))}
-        </div>
-        <h3 className="mt-10 text-xl font-black text-ink">
-          Mentions liées aux 125 ans à confirmer
-        </h3>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {anniversarySponsorNotes.map((sponsor) => (
-            <SponsorCard key={sponsor.name} sponsor={sponsor} dashed />
           ))}
         </div>
       </section>

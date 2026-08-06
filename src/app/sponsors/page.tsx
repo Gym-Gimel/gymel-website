@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { SponsorCard } from "@/components/sponsors/sponsor-card";
 import { SectionHeading } from "@/components/ui/section-heading";
-import {
-  anniversarySponsorNotes,
-  generalSponsors,
-} from "@/lib/constants/content";
+import { generalSponsors } from "@/lib/constants/content";
 
 export const metadata: Metadata = {
   title: "Sponsors",
@@ -28,20 +25,6 @@ export default function SponsorsPage() {
         </div>
       </section>
 
-      <section className="mt-12">
-        <h2 className="text-2xl font-black text-ink">
-          Mentions liées aux 125 ans
-        </h2>
-        <p className="mt-3 max-w-3xl leading-7 text-stone-600">
-          Ces partenaires sont mentionnés dans les contenus actuels liés aux 125
-          ans. Les logos officiels restent à confirmer avant publication.
-        </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {anniversarySponsorNotes.map((sponsor) => (
-            <SponsorCard key={sponsor.name} sponsor={sponsor} dashed />
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
