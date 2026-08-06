@@ -7,9 +7,9 @@ import type { Competition, Course } from "@/types/data";
 describe("CSV validation", () => {
   it("keeps valid rows and reports invalid rows", () => {
     const csv = [
-      "id,slug,name,shortDescription,fullDescription,category,ageRange,days,startTime,endTime,location,monitors,price,status,image,registrationUrl,note",
-      "ok,bon-cours,Cours test,Intro,Long,Adultes,Adultes,Lundi,18:00,19:00,Salle,Moniteur,CHF 120.-,open,/image.svg,/inscriptions,",
-      "bad,mauvais,Cours test,Intro,Long,Adultes,Adultes,Lundi,18h,19:00,Salle,Moniteur,CHF 120.-,open,/image.svg,/inscriptions,"
+      "id,slug,name,shortDescription,fullDescription,category,ageRange,days,startTime,endTime,location,monitors,price,status,image,registrationUrl,restartDate,note",
+      "ok,bon-cours,Cours test,Intro,Long,Adultes,Adultes,Lundi,18:00,19:00,Salle,Moniteur,CHF 120.-,open,/image.svg,/inscriptions,24.08,",
+      "bad,mauvais,Cours test,Intro,Long,Adultes,Adultes,Lundi,18h,19:00,Salle,Moniteur,CHF 120.-,open,/image.svg,/inscriptions,24.08,"
     ].join("\n");
 
     const result = parseCsvRows<Course>("courses.csv", csv, courseSchema, ["id", "slug"]);

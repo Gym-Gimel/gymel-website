@@ -28,7 +28,7 @@ CSV_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-Sans URL distante, les fichiers locaux dans `data/` servent de secours.
+En développement, les fichiers locaux dans `data/` sont utilisés par défaut pour voir immédiatement les modifications. En production, les URLs distantes sont utilisées lorsqu'elles sont configurées, avec fallback local si la récupération échoue.
 
 ## Commandes
 
@@ -43,7 +43,7 @@ npm run build
 
 ## Données CSV
 
-- `data/courses.csv`: cours, horaires, contacts et cotisations.
+- `data/courses.csv`: cours, horaires, reprises, contacts et cotisations.
 - `data/competitions.csv`: concours, événements et manifestations.
 - `data/volleyball-men.csv`: matchs volley hommes.
 - `data/volleyball-women.csv`: matchs volley femmes.

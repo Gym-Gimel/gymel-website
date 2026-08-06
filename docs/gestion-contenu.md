@@ -24,6 +24,7 @@ Les modèles vierges sont dans `data/templates/`.
 ## Dates et heures
 
 - Date: `YYYY-MM-DD`, exemple `2026-08-22`.
+- Date de reprise d'un cours: `DD.MM`, exemple `24.08`.
 - Heure: `HH:mm`, exemple `20:30`.
 - Plusieurs jours ou moniteurs: séparer avec `;`.
 
@@ -45,7 +46,7 @@ Le site regroupe automatiquement certains créneaux sur la page `Nos cours`:
 
 Sur la page d'accueil, le planning affiche toujours les créneaux séparés, car le visiteur doit voir le jour, l'heure et le lieu exacts.
 
-Sur la page `Nos cours`, le visiteur voit un seul cours regroupé. En ouvrant la fiche, il voit ensuite tous les formats disponibles avec leurs horaires, lieux, cotisations et remarques.
+Sur la page `Nos cours`, le visiteur voit un seul cours regroupé. En ouvrant la fiche, il voit ensuite tous les formats disponibles avec leurs horaires, dates de reprise, lieux, cotisations et remarques.
 
 ### Ajouter un nouveau créneau à un cours existant
 

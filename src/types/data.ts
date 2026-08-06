@@ -17,6 +17,7 @@ export type Course = {
   status: CourseStatus;
   image?: string;
   registrationUrl?: string;
+  restartDate?: string;
   note?: string;
 };
 
@@ -79,51 +80,51 @@ export type VolleyballMatch = {
 
 export type CalendarItem =
   | {
-      id: string;
-      type: "competition";
-      slug: string;
-      title: string;
-      date: string;
-      endDate?: string;
-      location: string;
-      category: string;
-      status: CompetitionStatus;
-      description: string;
-      href: string;
-      featured: boolean;
-      registrationUrl?: string;
-      programUrl?: string;
-      resultsUrl?: string;
-    }
+    id: string;
+    type: "competition";
+    slug: string;
+    title: string;
+    date: string;
+    endDate?: string;
+    location: string;
+    category: string;
+    status: CompetitionStatus;
+    description: string;
+    href: string;
+    featured: boolean;
+    registrationUrl?: string;
+    programUrl?: string;
+    resultsUrl?: string;
+  }
   | {
-      id: string;
-      type: "event";
-      slug: string;
-      title: string;
-      date: string;
-      endDate?: string;
-      location: string;
-      category: string;
-      status: CompetitionStatus;
-      description: string;
-      href: string;
-      featured: boolean;
-      registrationUrl?: string;
-      programUrl?: string;
-      resultsUrl?: string;
-    }
+    id: string;
+    type: "event";
+    slug: string;
+    title: string;
+    date: string;
+    endDate?: string;
+    location: string;
+    category: string;
+    status: CompetitionStatus;
+    description: string;
+    href: string;
+    featured: boolean;
+    registrationUrl?: string;
+    programUrl?: string;
+    resultsUrl?: string;
+  }
   | {
-      id: string;
-      type: "volley-men" | "volley-women";
-      title: string;
-      date: string;
-      time: string;
-      location: string;
-      category: string;
-      status: VolleyballStatus;
-      href?: string;
-      score?: string;
-    };
+    id: string;
+    type: "volley-men" | "volley-women";
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+    category: string;
+    status: VolleyballStatus;
+    href?: string;
+    score?: string;
+  };
 
 export type CsvValidationError = {
   file: string;

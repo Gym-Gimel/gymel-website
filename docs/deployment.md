@@ -16,6 +16,8 @@ Les CSV distants utilisent la revalidation Next.js. La durée est contrôlée pa
 CSV_REVALIDATE_SECONDS=300
 ```
 
+En développement, le site lit les fichiers locaux dans `data/` afin que les modifications de contenu soient visibles immédiatement. Les URLs distantes sont utilisées en production lorsqu'elles sont configurées.
+
 ## Secrets
 
 Ne jamais stocker de secret dans le dépôt. La revalidation manuelle et le formulaire de contact devront utiliser des variables d'environnement.

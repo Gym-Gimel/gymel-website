@@ -19,7 +19,7 @@ Les CSV sont lus côté serveur par `src/lib/data/loaders.ts`. Les fichiers dist
 
 ## Regroupement des cours
 
-Le fichier `data/courses.csv` décrit des créneaux horaires. Une ligne correspond à un créneau précis avec son jour, son heure, son lieu, son contact et sa remarque.
+Le fichier `data/courses.csv` décrit des créneaux horaires. Une ligne correspond à un créneau précis avec son jour, son heure, son lieu, son contact, sa date de reprise et sa remarque.
 
 L'interface publique distingue deux usages:
 

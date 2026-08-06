@@ -20,6 +20,8 @@ const sourceUrls: Record<CsvKey, string | undefined> = {
   volleyballWomen: csvConfig.sources.volleyballWomen
 };
 
+const shouldUseRemoteCsv = process.env.NODE_ENV !== "development";
+
 export async function readLocalCsv(key: CsvKey) {
   return readFile(path.join(ROOT, localFiles[key]), "utf8");
 }
@@ -27,7 +29,7 @@ export async function readLocalCsv(key: CsvKey) {
 export async function readCsvWithFallback(key: CsvKey) {
   const url = sourceUrls[key];
 
-  if (!url) {
+  if (!url || !shouldUseRemoteCsv) {
     return {
       source: localFiles[key],
       text: await readLocalCsv(key),

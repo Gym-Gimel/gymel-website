@@ -19,6 +19,7 @@ const relativeOrAbsoluteUrl = z
   );
 
 const isoDate = requiredText.regex(/^\d{4}-\d{2}-\d{2}$/, "Format attendu: YYYY-MM-DD");
+const shortDate = optionalText.pipe(z.string().regex(/^\d{2}\.\d{2}$/, "Format attendu: DD.MM").optional());
 const hour = requiredText.regex(/^\d{2}:\d{2}$/, "Format attendu: HH:mm");
 const slug = requiredText.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slug en minuscules, chiffres et tirets");
 
@@ -50,6 +51,7 @@ export const courseSchema = z.object({
   status: z.enum(["open", "waitlist", "closed"]),
   image: relativeOrAbsoluteUrl,
   registrationUrl: relativeOrAbsoluteUrl,
+  restartDate: shortDate,
   note: optionalText
 });
 
