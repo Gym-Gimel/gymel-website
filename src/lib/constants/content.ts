@@ -53,15 +53,32 @@ export const committeeMembers = [
 export const registrationInfo = {
   intro:
     "Vous souhaitez rejoindre la Gym de Gimel ou inscrire votre enfant à l'un de nos cours ? Retrouvez ici les informations utiles concernant les inscriptions, les cotisations, les équipements, les fermetures annuelles, les démissions et les autorisations photos.",
+  trialCourses:
+    "Il est possible de tester un cours avant de s'inscrire. Nous proposons un cours d'essai pour les adultes et deux cours d'essai pour les enfants.",
   closures: [
-    "Jeûne fédéral : lundi 21 septembre 2026",
-    "Vacances d'automne : du samedi 10 octobre au dimanche 25 octobre 2026",
-    "Vacances d'hiver : du jeudi 24 décembre 2026 au dimanche 10 janvier 2027",
-    "Relâches : du samedi 6 février au dimanche 14 février 2027",
-    "Vacances de Pâques : du vendredi 26 mars au dimanche 11 avril 2027",
-    "Pont de l'Ascension : du jeudi 6 mai 2027",
-    "Lundi de Pentecôte : lundi 17 mai 2027",
-    "Vacances d'été : du samedi 3 juillet au dimanche 22 août 2027"
+    { name: "Jeûne fédéral", period: "lundi 21 septembre 2026" },
+    {
+      name: "Vacances d'automne",
+      period: "du samedi 10 octobre au dimanche 25 octobre 2026"
+    },
+    {
+      name: "Vacances d'hiver",
+      period: "du jeudi 24 décembre 2026 au dimanche 10 janvier 2027"
+    },
+    {
+      name: "Relâches",
+      period: "du samedi 6 février au dimanche 14 février 2027"
+    },
+    {
+      name: "Vacances de Pâques",
+      period: "du vendredi 26 mars au dimanche 11 avril 2027"
+    },
+    { name: "Pont de l'Ascension", period: "du jeudi 6 mai 2027" },
+    { name: "Lundi de Pentecôte", period: "lundi 17 mai 2027" },
+    {
+      name: "Vacances d'été",
+      period: "du samedi 3 juillet au dimanche 22 août 2027"
+    }
   ],
   fees: [
     "Cotisation annuelle : CHF 120.- par membre.",

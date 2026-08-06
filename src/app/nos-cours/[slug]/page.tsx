@@ -32,7 +32,16 @@ export default async function CourseDetailPage({ params }: { params: Promise<{ s
       </Link>
       <div className="mt-6 overflow-hidden rounded-lg border border-stone-200 bg-white shadow-soft">
         <div className="relative aspect-[16/7] min-h-[260px] bg-stone-100">
-          {course.image ? <Image src={course.image} alt="" fill className="object-cover" priority /> : null}
+          {course.image ? (
+            <Image
+              src={course.image}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 960px, calc(100vw - 32px)"
+              priority
+            />
+          ) : null}
         </div>
         <div className="grid gap-8 p-6 lg:grid-cols-[1fr_320px] lg:p-8">
           <div>

@@ -34,6 +34,12 @@ export default async function RegistrationPage() {
             </ul>
           </article>
           <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-black text-ink">Cours d'essai</h2>
+            <p className="mt-2 leading-7 text-stone-600">
+              {registrationInfo.trialCourses}
+            </p>
+          </article>
+          <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
             <h2 className="text-xl font-black text-ink">
               Formulaire d'inscription
             </h2>
@@ -87,7 +93,11 @@ export default async function RegistrationPage() {
             </h2>
             <ul className="mt-3 grid gap-2 leading-7 text-stone-600">
               {registrationInfo.closures.map((closure) => (
-                <li key={closure}>{closure}</li>
+                <li key={closure.name}>
+                  <span className="font-bold text-ink">{closure.name}</span>
+                  {" : "}
+                  {closure.period}
+                </li>
               ))}
             </ul>
           </article>

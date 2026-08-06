@@ -68,6 +68,7 @@ export default async function HomePage() {
               alt="Visuel temporaire pour la Gym de Gimel"
               fill
               priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
             />
           </div>
