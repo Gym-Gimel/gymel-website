@@ -8,30 +8,34 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
     default: "Gym de Gimel",
-    template: "%s | Gym de Gimel"
+    template: "%s | Gym de Gimel",
   },
-  description: "Cours, calendrier sportif, inscriptions et événements de la société Gym de Gimel.",
+  description:
+    "Cours, calendrier sportif, inscriptions et événements de la société Gym de Gimel.",
   icons: {
     icon: [
       {
-        url: "/images/home.png",
-        type: "image/png"
-      }
+        url: "/images/logo.png",
+        type: "image/png",
+      },
     ],
-    shortcut: "/images/home.png",
-    apple: "/images/home.png"
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
   },
   openGraph: {
     title: "Gym de Gimel",
-    description: "Une société sportive locale, dynamique et ouverte à toutes les générations.",
+    description:
+      "Une société sportive locale, dynamique et ouverte à toutes les générations.",
     url: SITE.url,
     siteName: SITE.name,
     locale: "fr_CH",
-    type: "website"
-  }
+    type: "website",
+  },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" data-scroll-behavior="smooth">
       <body className="flex min-h-screen flex-col antialiased">
