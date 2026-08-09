@@ -16,6 +16,8 @@ Par défaut, le site lit les fichiers locaux dans `data/` afin que le contenu ve
 CSV_SOURCE=remote
 ```
 
+Sans `CSV_SOURCE=remote`, une ligne présente uniquement dans un CSV distant ne sera pas publiée. Il faut soit l'ajouter au CSV local correspondant, soit activer explicitement la source distante.
+
 Les CSV distants utilisent alors la revalidation Next.js. La durée est contrôlée par:
 
 ```env

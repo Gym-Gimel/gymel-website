@@ -15,7 +15,20 @@ Le site utilise Next.js App Router.
 
 ## Données
 
-Les CSV sont lus côté serveur par `src/lib/data/loaders.ts`. Les fichiers distants sont centralisés dans `src/lib/config.ts`. Les fichiers locaux de `data/` servent de secours.
+Les CSV sont lus côté serveur par `src/lib/data/loaders.ts`. Par défaut, le site utilise les fichiers locaux de `data/`, même si des URLs distantes sont configurées dans l'environnement. Pour utiliser les CSV distants, il faut définir `CSV_SOURCE=remote`.
+
+Conséquence pratique: si le CSV distant contient une ligne qui n'existe plus dans `data/competitions.csv`, elle ne s'affiche pas sur le site tant que `CSV_SOURCE` reste sur `local` ou n'est pas défini. C'est le cas, par exemple, d'une ancienne ligne comme `125-ans-gym-gimel` présente sur un CSV distant mais supprimée du CSV local.
+
+Les URLs distantes sont centralisées dans `src/lib/config.ts`. Si `CSV_SOURCE=remote` est actif et qu'une récupération distante échoue, le site revient au fichier local correspondant.
+
+## Séparation calendrier et événements
+
+Le fichier `data/competitions.csv` contient à la fois des concours sportifs et des événements de société. La séparation se fait avec la colonne `category`.
+
+- `category` égal à `Concours de gymnastique`: l'entrée apparaît dans `/calendrier-sportif` et son détail est publié sous `/calendrier-sportif/concours/[slug]`.
+- Toute autre valeur de `category`, par exemple `Manifestation` ou `Assemblée`: l'entrée apparaît dans `/evenements` et son détail est publié sous `/evenements/[slug]`.
+
+La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestations non sportives. Si une ancienne URL de concours pointe vers un slug devenu événement, elle redirige vers `/evenements/[slug]`.
 
 ## Regroupement des cours
 

@@ -13,6 +13,12 @@ Dans GitHub, ouvrir le dossier `data/`:
 
 Les modèles vierges sont dans `data/templates/`.
 
+## Source utilisée par le site
+
+Le site utilise par défaut les fichiers locaux du dossier `data/`. Les CSV distants configurés dans l'environnement ne sont utilisés que si `CSV_SOURCE=remote` est défini.
+
+Si une ligne existe dans le CSV distant mais plus dans le CSV local, elle ne s'affiche donc pas sur le site en mode local. Exemple: une ligne `125-ans-gym-gimel` encore présente dans un CSV distant reste ignorée si elle a été supprimée de `data/competitions.csv`.
+
 ## Modifier un fichier
 
 1. Ouvrir le fichier dans GitHub.
@@ -88,12 +94,27 @@ Volley:
 - `cancelled`
 - `finished`
 
-## Ajouter un concours
+## Ajouter un événement ou un concours
+
+Le fichier `competitions.csv` sert à deux affichages différents selon la colonne `category`.
+
+- `Concours de gymnastique`: l'entrée est sportive et apparaît dans `/calendrier-sportif`.
+- `Manifestation`, `Assemblée` ou toute autre catégorie non sportive: l'entrée apparaît dans `/evenements`.
+
+Pour une manifestation comme une soirée, un loto, une assemblée générale ou une fête de société, utiliser donc `Manifestation` ou `Assemblée`, pas `Concours de gymnastique`.
+
+### Exemple de manifestation
 
 Exemple:
 
 ```csv
 competition-fete-2026,fete-2026,Fête de la gym,2026-06-14,2026-06-14,Gimel,Manifestation,Tous,upcoming,"Description courte",/inscriptions,/documents/programme.pdf,,true
+```
+
+### Exemple de concours sportif
+
+```csv
+competition-agres-2026,concours-agres-2026,Concours agrès,2026-05-17,2026-05-17,Aubonne,Concours de gymnastique,Agrès,upcoming,"Description courte",,/documents/programme.pdf,,false
 ```
 
 ## Ajouter un résultat volley
