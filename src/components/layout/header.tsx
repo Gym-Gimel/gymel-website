@@ -17,19 +17,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-stone-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <Link
           href="/"
           className="flex items-center gap-3 font-bold text-ink"
           onClick={() => setIsOpen(false)}
         >
-          <span className="relative block h-12 w-16 overflow-hidden rounded bg-white">
+          <span className="relative block h-16 w-20">
             <Image
-              src="/images/logo.png"
+              src="/images/logo_white.png"
               alt="Logo Gym de Gimel"
               fill
-              className="object-contain"
               sizes="64px"
+              className="scale-150 object-contain [filter:brightness(0)_saturate(100%)_invert(15%)_sepia(89%)_saturate(4538%)_hue-rotate(356deg)_brightness(83%)_contrast(93%)]"
               priority
             />
           </span>
