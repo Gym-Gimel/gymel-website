@@ -30,6 +30,10 @@ Le fichier `data/competitions.csv` contient à la fois des concours sportifs et 
 
 La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestations non sportives. Si une ancienne URL de concours pointe vers un slug devenu événement, elle redirige vers `/evenements/[slug]`.
 
+## Formulaire de contact
+
+La page `/contact` utilise un composant client qui envoie les données à `/api/contact`. La route valide les champs côté serveur, ignore un champ honeypot anti-spam et transmet l'e-mail via Resend lorsque les variables `CONTACT_FORM_PROVIDER`, `CONTACT_FORM_TO`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurées.
+
 ## Regroupement des cours
 
 Le fichier `data/courses.csv` décrit des créneaux horaires. Une ligne correspond à un créneau précis avec son jour, son heure, son lieu, son contact, sa date de reprise et sa remarque.

@@ -27,9 +27,15 @@ VOLLEYBALL_WOMEN_CSV_URL=
 COURSES_CSV_URL=
 CSV_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+CONTACT_FORM_PROVIDER=resend
+CONTACT_FORM_TO=contact@daviddieperink.ch
+CONTACT_FORM_FROM=
+RESEND_API_KEY=
 ```
 
 Par défaut, les fichiers locaux dans `data/` sont utilisés. Pour utiliser les URLs distantes, définir `CSV_SOURCE=remote`; une erreur de récupération distante déclenche alors le fallback local.
+
+Le formulaire de contact envoie les messages via Resend lorsque `CONTACT_FORM_PROVIDER=resend`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurés. `CONTACT_FORM_TO` définit la boîte de réception.
 
 ## Commandes
 

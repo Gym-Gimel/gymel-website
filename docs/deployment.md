@@ -26,4 +26,17 @@ CSV_REVALIDATE_SECONDS=300
 
 ## Secrets
 
-Ne jamais stocker de secret dans le dépôt. La revalidation manuelle et le formulaire de contact devront utiliser des variables d'environnement.
+Ne jamais stocker de secret dans le dépôt. La revalidation manuelle et le formulaire de contact doivent utiliser des variables d'environnement.
+
+## Formulaire de contact
+
+Le formulaire POST sur `/api/contact` envoie les messages via Resend. Variables à configurer:
+
+```env
+CONTACT_FORM_PROVIDER=resend
+CONTACT_FORM_TO=contact@daviddieperink.ch
+CONTACT_FORM_FROM=Gym de Gimel <contact@gymel.ch>
+RESEND_API_KEY=...
+```
+
+`CONTACT_FORM_FROM` doit correspondre à une adresse ou un domaine validé chez le fournisseur e-mail. Pour passer de la boîte de test à la boîte finale de la société, modifier `CONTACT_FORM_TO`.
