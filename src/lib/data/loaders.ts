@@ -1,7 +1,7 @@
 import { parseCsvRows } from "@/lib/csv/parse";
 import { combineCourseStatus, getCourseGroupIdentity, sortCourseSessions, uniqueValues } from "@/lib/courses/grouping";
 import { readCsvWithFallback } from "@/lib/data/files";
-import { compareIsoDates } from "@/lib/formatting/date";
+import { compareIsoDates, compareIsoDatesDesc } from "@/lib/formatting/date";
 import { competitionSchema, courseSchema, volleyballSchema } from "@/lib/validation/schemas";
 import type { CalendarItem, Competition, Course, CourseGroup, VolleyballMatch } from "@/types/data";
 
@@ -167,5 +167,6 @@ export async function getFeaturedCalendarItems(limit = 3) {
   const [calendarItems, eventItems] = await Promise.all([getCalendarItems(), getEventItems()]);
   return [...eventItems, ...calendarItems]
     .filter((item) => (item.type === "competition" || item.type === "event") && item.featured)
+    .sort((a, b) => compareIsoDatesDesc(a.date, b.date))
     .slice(0, limit);
 }

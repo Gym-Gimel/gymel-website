@@ -11,22 +11,32 @@ import {
   getCalendarItems,
   getCourseGroups,
   getCourses,
+  getEventItems,
   getFeaturedCalendarItems,
 } from "@/lib/data/loaders";
+import { compareIsoDatesDesc } from "@/lib/formatting/date";
 
 export default async function HomePage() {
-  const [courses, courseGroups, featuredItems, calendarItems] =
+  const [courses, courseGroups, featuredItems, calendarItems, eventItems] =
     await Promise.all([
       getCourses(),
       getCourseGroups(),
       getFeaturedCalendarItems(3),
       getCalendarItems(),
+      getEventItems(),
     ]);
   const highlightedCourses = courseGroups
     .filter((course) =>
       ["Enfants", "Adultes", "Volley", "Compétition"].includes(course.category),
     )
     .slice(0, 4);
+  const homeEventItems = (featuredItems.length > 0
+    ? featuredItems
+    : [...eventItems, ...calendarItems]
+  )
+    .filter((item) => item.status !== "finished")
+    .sort((a, b) => compareIsoDatesDesc(a.date, b.date))
+    .slice(0, 3);
 
   return (
     <>
@@ -78,14 +88,17 @@ export default async function HomePage() {
           ainsi que les concours et manifestations auxquels la société
           participe.
         </SectionHeading>
-        <div className="mt-8 grid gap-4 lg:grid-cols-3">
-          {(featuredItems.length > 0
-            ? featuredItems
-            : calendarItems.slice(0, 3)
-          ).map((item) => (
-            <EventCard key={`${item.type}-${item.id}`} item={item} />
-          ))}
-        </div>
+        {homeEventItems.length > 0 ? (
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {homeEventItems.map((item) => (
+              <EventCard key={`${item.type}-${item.id}`} item={item} />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-8 rounded-lg border border-dashed border-stone-300 bg-white p-8 text-center text-stone-600">
+            Aucun prochain événement n'est annoncé pour le moment.
+          </p>
+        )}
       </section>
 
       <section className="bg-white">
