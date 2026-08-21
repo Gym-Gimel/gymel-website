@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { registrationInfo } from "@/lib/constants/content";
 import { SITE } from "@/lib/constants/site";
-import { getCourses } from "@/lib/data/loaders";
+import { getCalendarItems, getCourses, getEventItems } from "@/lib/data/loaders";
 import { TextWithEmailLinks } from "@/components/ui/text-with-email-link";
 
 export const metadata: Metadata = {
@@ -12,7 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default async function RegistrationPage() {
-  const courses = await getCourses();
+  const [courses, events, sportsEvents] = await Promise.all([
+    getCourses(),
+    getEventItems(),
+    getCalendarItems(),
+  ]);
+  const openCoursesCount = courses.filter(
+    (course) => course.status === "open",
+  ).length;
+  const upcomingEventsCount = events.filter(
+    (event) => event.status !== "finished",
+  ).length;
+  const upcomingSportsEventsCount = sportsEvents.filter(
+    (event) => event.status !== "finished",
+  ).length;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -117,8 +130,25 @@ export default async function RegistrationPage() {
             <div>
               <dt className="font-black">Cours ouverts</dt>
               <dd>
-                {courses.filter((course) => course.status === "open").length}{" "}
-                cours actuellement ouverts dans les données locales.
+                {openCoursesCount} cours actuellement ouverts.
+              </dd>
+            </div>
+            <div>
+              <dt className="font-black">Evénements à venir</dt>
+              <dd>
+                {upcomingEventsCount}{" "}
+                {upcomingEventsCount > 1
+                  ? "événements à venir."
+                  : "événement à venir."}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-black">Evénements sportifs</dt>
+              <dd>
+                {upcomingSportsEventsCount}{" "}
+                {upcomingSportsEventsCount > 1
+                  ? "événements sportifs à venir."
+                  : "événement sportif à venir."}
               </dd>
             </div>
           </dl>

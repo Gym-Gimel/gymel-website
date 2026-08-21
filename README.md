@@ -22,6 +22,7 @@ Les CSV peuvent venir de GitHub:
 ```env
 CSV_SOURCE=local
 COMPETITIONS_CSV_URL=
+EVENTS_CSV_URL=
 VOLLEYBALL_MEN_CSV_URL=
 VOLLEYBALL_WOMEN_CSV_URL=
 COURSES_CSV_URL=
@@ -51,7 +52,8 @@ npm run build
 ## Données CSV
 
 - `data/courses.csv`: cours, horaires, reprises, contacts et cotisations.
-- `data/competitions.csv`: concours, événements et manifestations.
+- `data/competitions.csv`: concours de gym et événements sportifs hors volley.
+- `data/events.csv`: manifestations, assemblées et événements non sportifs.
 - `data/volleyball-men.csv`: matchs volley hommes.
 - `data/volleyball-women.csv`: matchs volley femmes.
 - `data/templates`: modèles vierges.

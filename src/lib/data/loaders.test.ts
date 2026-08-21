@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { parseCsvRows } from "@/lib/csv/parse";
-import { isSportsCompetition } from "@/lib/data/loaders";
 import { competitionSchema, courseSchema } from "@/lib/validation/schemas";
 import type { Competition, Course } from "@/types/data";
 
@@ -45,11 +44,15 @@ describe("CSV validation", () => {
     expect(result.errors[0]?.column).toBe("endDate");
   });
 
-  it("keeps only gymnastics competitions in the sports calendar", () => {
-    expect(
-      isSportsCompetition({ category: "Concours de gymnastique" }),
-    ).toBe(true);
-    expect(isSportsCompetition({ category: "Manifestation" })).toBe(false);
-    expect(isSportsCompetition({ category: "Assemblée" })).toBe(false);
+  it("accepts event rows with the competition/event schema", () => {
+    const csv = [
+      "id,slug,title,startDate,endDate,location,category,group,status,description,registrationUrl,programUrl,resultsUrl,featured",
+      "a,loto,Loto,2027-01-18,2027-01-18,Gimel,Manifestation,Tous,upcoming,Description,,,,false"
+    ].join("\n");
+
+    const result = parseCsvRows<Competition>("events.csv", csv, competitionSchema, ["id", "slug"]);
+
+    expect(result.data).toHaveLength(1);
+    expect(result.errors).toHaveLength(0);
   });
 });

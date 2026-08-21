@@ -5,16 +5,10 @@ import { compareIsoDates } from "@/lib/formatting/date";
 import { competitionSchema, courseSchema, volleyballSchema } from "@/lib/validation/schemas";
 import type { CalendarItem, Competition, Course, CourseGroup, VolleyballMatch } from "@/types/data";
 
-const SPORTS_COMPETITION_CATEGORY = "Concours de gymnastique";
-
 function logErrors(errors: { message: string }[]) {
   if (errors.length > 0) {
     console.warn(errors.map((error) => error.message).join("\n"));
   }
-}
-
-export function isSportsCompetition(competition: Pick<Competition, "category">) {
-  return competition.category === SPORTS_COMPETITION_CATEGORY;
 }
 
 export async function getCourses(): Promise<Course[]> {
@@ -72,13 +66,14 @@ export async function getCompetitions(): Promise<Competition[]> {
 }
 
 export async function getSportsCompetitions() {
-  const competitions = await getCompetitions();
-  return competitions.filter(isSportsCompetition);
+  return getCompetitions();
 }
 
 export async function getEventCompetitions() {
-  const competitions = await getCompetitions();
-  return competitions.filter((competition) => !isSportsCompetition(competition));
+  const csv = await readCsvWithFallback("events");
+  const result = parseCsvRows<Competition>(csv.source, csv.text, competitionSchema, ["id", "slug"]);
+  logErrors(result.errors);
+  return result.data.sort((a, b) => compareIsoDates(a.startDate, b.startDate));
 }
 
 export async function getCompetitionBySlug(slug: string) {

@@ -8,6 +8,7 @@ Dans GitHub, ouvrir le dossier `data/`:
 
 - `courses.csv`
 - `competitions.csv`
+- `events.csv`
 - `volleyball-men.csv`
 - `volleyball-women.csv`
 
@@ -17,7 +18,7 @@ Les modèles vierges sont dans `data/templates/`.
 
 Le site utilise par défaut les fichiers locaux du dossier `data/`. Les CSV distants configurés dans l'environnement ne sont utilisés que si `CSV_SOURCE=remote` est défini.
 
-Si une ligne existe dans le CSV distant mais plus dans le CSV local, elle ne s'affiche donc pas sur le site en mode local. Exemple: une ligne `125-ans-gym-gimel` encore présente dans un CSV distant reste ignorée si elle a été supprimée de `data/competitions.csv`.
+Si une ligne existe dans le CSV distant mais plus dans le CSV local, elle ne s'affiche donc pas sur le site en mode local. Exemple: une ligne `125-ans-gym-gimel` encore présente dans un CSV distant reste ignorée si elle a été supprimée du CSV local correspondant.
 
 ## Modifier un fichier
 
@@ -78,7 +79,7 @@ Cours:
 - `waitlist`
 - `closed`
 
-Concours:
+Concours et événements:
 
 - `draft`
 - `upcoming`
@@ -96,19 +97,17 @@ Volley:
 
 ## Ajouter un événement ou un concours
 
-Le fichier `competitions.csv` sert à deux affichages différents selon la colonne `category`.
+Les concours sportifs et les manifestations sont séparés dans deux fichiers différents.
 
-- `Concours de gymnastique`: l'entrée est sportive et apparaît dans `/calendrier-sportif`.
-- `Manifestation`, `Assemblée` ou toute autre catégorie non sportive: l'entrée apparaît dans `/evenements`.
+- `competitions.csv`: concours de gym et événements sportifs hors volley. Les entrées apparaissent dans `/calendrier-sportif`.
+- `events.csv`: manifestations, assemblées générales, lotos, soirées et autres événements non sportifs. Les entrées apparaissent dans `/evenements`.
 
-Pour une manifestation comme une soirée, un loto, une assemblée générale ou une fête de société, utiliser donc `Manifestation` ou `Assemblée`, pas `Concours de gymnastique`.
+La colonne `category` reste affichée sur le site, mais elle ne décide plus de la page où l'entrée apparaît. C'est le fichier CSV qui décide.
 
 ### Exemple de manifestation
 
-Exemple:
-
 ```csv
-competition-fete-2026,fete-2026,Fête de la gym,2026-06-14,2026-06-14,Gimel,Manifestation,Tous,upcoming,"Description courte",/inscriptions,/documents/programme.pdf,,true
+event-fete-2026,fete-2026,Fête de la gym,2026-06-14,2026-06-14,Gimel,Manifestation,Tous,upcoming,"Description courte",/inscriptions,/documents/programme.pdf,,true
 ```
 
 ### Exemple de concours sportif

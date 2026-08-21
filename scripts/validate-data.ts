@@ -6,10 +6,11 @@ import type { ZodType, ZodTypeDef } from "zod";
 const targets = [
   { key: "courses" as const, file: "data/courses.csv", schema: courseSchema, uniqueFields: ["id", "slug"] },
   { key: "competitions" as const, file: "data/competitions.csv", schema: competitionSchema, uniqueFields: ["id", "slug"] },
+  { key: "events" as const, file: "data/events.csv", schema: competitionSchema, uniqueFields: ["id", "slug"] },
   { key: "volleyballMen" as const, file: "data/volleyball-men.csv", schema: volleyballSchema, uniqueFields: ["id"] },
   { key: "volleyballWomen" as const, file: "data/volleyball-women.csv", schema: volleyballSchema, uniqueFields: ["id"] }
 ] satisfies {
-  key: "courses" | "competitions" | "volleyballMen" | "volleyballWomen";
+  key: "courses" | "competitions" | "events" | "volleyballMen" | "volleyballWomen";
   file: string;
   schema: ZodType<unknown, ZodTypeDef, unknown>;
   uniqueFields: string[];

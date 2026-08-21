@@ -17,16 +17,18 @@ Le site utilise Next.js App Router.
 
 Les CSV sont lus côté serveur par `src/lib/data/loaders.ts`. Par défaut, le site utilise les fichiers locaux de `data/`, même si des URLs distantes sont configurées dans l'environnement. Pour utiliser les CSV distants, il faut définir `CSV_SOURCE=remote`.
 
-Conséquence pratique: si le CSV distant contient une ligne qui n'existe plus dans `data/competitions.csv`, elle ne s'affiche pas sur le site tant que `CSV_SOURCE` reste sur `local` ou n'est pas défini. C'est le cas, par exemple, d'une ancienne ligne comme `125-ans-gym-gimel` présente sur un CSV distant mais supprimée du CSV local.
+Conséquence pratique: si le CSV distant contient une ligne qui n'existe plus dans le CSV local correspondant, elle ne s'affiche pas sur le site tant que `CSV_SOURCE` reste sur `local` ou n'est pas défini. C'est le cas, par exemple, d'une ancienne ligne comme `125-ans-gym-gimel` présente sur un CSV distant mais supprimée du CSV local.
 
 Les URLs distantes sont centralisées dans `src/lib/config.ts`. Si `CSV_SOURCE=remote` est actif et qu'une récupération distante échoue, le site revient au fichier local correspondant.
 
 ## Séparation calendrier et événements
 
-Le fichier `data/competitions.csv` contient à la fois des concours sportifs et des événements de société. La séparation se fait avec la colonne `category`.
+Les concours sportifs et les manifestations sont séparés par fichier source.
 
-- `category` égal à `Concours de gymnastique`: l'entrée apparaît dans `/calendrier-sportif` et son détail est publié sous `/calendrier-sportif/concours/[slug]`.
-- Toute autre valeur de `category`, par exemple `Manifestation` ou `Assemblée`: l'entrée apparaît dans `/evenements` et son détail est publié sous `/evenements/[slug]`.
+- `data/competitions.csv`: l'entrée apparaît dans `/calendrier-sportif` et son détail est publié sous `/calendrier-sportif/concours/[slug]`.
+- `data/events.csv`: l'entrée apparaît dans `/evenements` et son détail est publié sous `/evenements/[slug]`.
+
+La colonne `category` reste utile pour afficher un libellé comme `Concours de gymnastique`, `Manifestation` ou `Assemblée`, mais elle ne décide plus de la destination publique de l'entrée.
 
 La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestations non sportives. Si une ancienne URL de concours pointe vers un slug devenu événement, elle redirige vers `/evenements/[slug]`.
 
