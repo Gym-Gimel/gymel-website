@@ -169,7 +169,7 @@ export default async function HomePage() {
           </a>
           .
         </SectionHeading>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {generalSponsors.map((sponsor) => (
             <SponsorCard key={sponsor.name} sponsor={sponsor} />
           ))}

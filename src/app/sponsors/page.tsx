@@ -18,7 +18,7 @@ export default function SponsorsPage() {
 
       <section className="mt-10">
         <h2 className="text-2xl font-black text-ink">Sponsors de la Gym</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {generalSponsors.map((sponsor) => (
             <SponsorCard key={sponsor.name} sponsor={sponsor} />
           ))}
