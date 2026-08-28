@@ -33,6 +33,10 @@ CSV_REVALIDATE_SECONDS=300
 
 Ne jamais stocker de secret dans le dépôt. La revalidation manuelle et le formulaire de contact doivent utiliser des variables d'environnement.
 
+## Analytics
+
+Le site intègre Vercel Web Analytics via `@vercel/analytics`. Pour recevoir les statistiques, activer Web Analytics dans le projet Vercel, puis redéployer le site.
+
 ## Formulaire de contact
 
 Le formulaire POST sur `/api/contact` envoie les messages via Resend. Variables à configurer:

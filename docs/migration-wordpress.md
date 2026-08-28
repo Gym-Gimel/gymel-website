@@ -20,7 +20,7 @@ Le site WordPress actuel reste en ligne pendant le développement. Ne pas modifi
 - Cours principaux et horaires hebdomadaires.
 - Soirée de Gym, Loto et Assemblée Générale.
 - Comité et e-mails publics: Anne Debonneville Messieux, Adriano Schepis, Maud Zumstein, Sophie Debonneville, Pauline Champendal.
-- Sponsors généraux confirmés avec logos: Le Coultre, Pizzeria Allaman.
+- Sponsors généraux confirmés avec logos: Le Coultre, Pizzeria Allaman, SB Sport.
 - Liens sociaux Instagram et Facebook.
 
 ## Contenus à vérifier
