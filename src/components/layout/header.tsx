@@ -43,7 +43,7 @@ export function Header() {
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center gap-1 lg:flex"
+          className="hidden items-center gap-1 xl:flex"
         >
           {NAV_ITEMS.map((item) => (
             <Link
@@ -57,7 +57,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="hidden items-center gap-3 xl:flex">
           <a
             href={`mailto:${SITE.email}`}
             className="text-sm font-semibold text-stone-600 hover:text-brand"
@@ -68,7 +68,7 @@ export function Header() {
 
         <button
           type="button"
-          className="grid h-11 w-11 place-items-center rounded border border-stone-300 text-ink lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded border border-stone-300 text-ink xl:hidden"
           aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
@@ -101,7 +101,7 @@ export function Header() {
         <nav
           id="mobile-menu"
           aria-label="Navigation mobile"
-          className="border-t border-stone-200 bg-white px-4 py-3 lg:hidden"
+          className="border-t border-stone-200 bg-white px-4 py-3 xl:hidden"
         >
           <div className="mx-auto grid max-w-7xl gap-1">
             {NAV_ITEMS.map((item) => (
