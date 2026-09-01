@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CalendarList } from "@/components/sports/calendar-list";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { getCalendarItems } from "@/lib/data/loaders";
-import { compareIsoDatesDesc } from "@/lib/formatting/date";
+import { compareIsoDates } from "@/lib/formatting/date";
 import type { CalendarItem } from "@/types/data";
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default async function SportsCalendarPage({
   const items = await getCalendarItems();
   const filtered = (
     params.type ? items.filter((item) => item.type === params.type) : items
-  ).sort((a, b) => compareIsoDatesDesc(a.date, b.date));
+  ).sort((a, b) => compareIsoDates(a.date, b.date));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
