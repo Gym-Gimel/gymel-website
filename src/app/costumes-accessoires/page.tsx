@@ -5,16 +5,13 @@ import { SITE } from "@/lib/constants/site";
 export const metadata: Metadata = {
   title: "Costumes & accessoires",
   description:
-    "Costumes et accessoires de scène proposés à la location ou à l'achat par la Gym de Gimel."
+    "Costumes et accessoires de scène proposés à la location ou à l'achat par la Gym de Gimel.",
 };
 
 export default function CostumesAccessoriesPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <SectionHeading
-        eyebrow="Spectacles"
-        title="Costumes & accessoires"
-      >
+      <SectionHeading eyebrow="Spectacles" title="Costumes & accessoires">
         La Gym de Gimel met à disposition une partie de son stock de costumes et
         d'accessoires de scène pour les sociétés, associations et groupes qui
         organisent leurs propres spectacles.
@@ -38,6 +35,22 @@ export default function CostumesAccessoriesPage() {
               à l'achat pour d'autres sociétés ou associations qui souhaitent
               compléter leurs tenues de spectacle.
             </p>
+          </div>
+
+          <div className="mt-6 rounded-lg border border-stone-200 bg-stone-50 p-5">
+            <h3 className="text-xl font-black text-ink">
+              Document à télécharger
+            </h3>
+            <p className="mt-2 leading-7 text-stone-600">
+              Retrouvez les costumes à louer dans le document.
+            </p>
+            <a
+              href="/documents/costumes-location.pdf"
+              download
+              className="mt-4 inline-flex rounded bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark"
+            >
+              Télécharger le document
+            </a>
           </div>
         </section>
 
