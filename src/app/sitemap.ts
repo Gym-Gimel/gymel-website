@@ -5,6 +5,7 @@ import {
   getEventCompetitions,
   getSportsCompetitions,
 } from "@/lib/data/loaders";
+import { PHOTO_ALBUMS } from "@/lib/photos/albums";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [courses, competitions, events] = await Promise.all([
@@ -17,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/nos-cours",
     "/calendrier-sportif",
     "/evenements",
+    "/photos",
     "/inscriptions",
     "/la-societe",
     "/jobs",
@@ -41,6 +43,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...events.map((event) => ({
       url: `${SITE.url}/evenements/${event.slug}`,
       lastModified: new Date(event.startDate)
+    })),
+    ...PHOTO_ALBUMS.map((album) => ({
+      url: `${SITE.url}/photos/${album.slug}`,
+      lastModified: new Date()
     }))
   ];
 }

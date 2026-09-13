@@ -16,6 +16,7 @@ export const NAV_ITEMS = [
   { href: "/nos-cours", label: "Nos cours" },
   { href: "/calendrier-sportif", label: "Calendrier sportif" },
   { href: "/evenements", label: "Evénements" },
+  { href: "/photos", label: "Photos" },
   { href: "/inscriptions", label: "Inscriptions" },
   { href: "/la-societe", label: "La société" },
   { href: "/jobs", label: "Jobs" },

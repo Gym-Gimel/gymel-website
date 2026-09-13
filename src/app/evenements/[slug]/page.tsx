@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { PhotoGallery } from "@/components/photos/photo-gallery";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { formatDateRange } from "@/lib/formatting/date";
 import { getEventBySlug, getEventCompetitions } from "@/lib/data/loaders";
+import { getPhotoAlbumForEventSlug } from "@/lib/photos/albums";
+import { getPhotoAlbumPreview } from "@/lib/photos/files";
 
 export async function generateStaticParams() {
   const events = await getEventCompetitions();
@@ -32,16 +36,20 @@ export default async function EventDetailPage({
   const { slug } = await params;
   const event = await getEventBySlug(slug);
   if (!event) notFound();
+  const photoAlbum = getPhotoAlbumForEventSlug(event.slug);
+  const previewPhotos = photoAlbum
+    ? await getPhotoAlbumPreview(photoAlbum, 10)
+    : [];
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <article className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <Link
         href="/evenements"
         className="text-sm font-bold text-brand hover:text-brand-dark"
       >
         Retour aux événements
       </Link>
-      <div className="mt-6 rounded-lg border border-stone-200 bg-white p-6 shadow-soft lg:p-8">
+      <div className="mt-6 max-w-4xl rounded-lg border border-stone-200 bg-white p-6 shadow-soft lg:p-8">
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={event.status} />
           <span className="rounded bg-stone-100 px-2.5 py-1 text-xs font-bold text-stone-700">
@@ -95,6 +103,27 @@ export default async function EventDetailPage({
           ) : null}
         </div>
       </div>
+
+      {photoAlbum && previewPhotos.length > 0 ? (
+        <section className="mt-12">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <SectionHeading eyebrow="Photos" title="Retour en images">
+              Une sélection de photos de l'événement. L'album complet est
+              disponible dans les archives photos de la société.
+            </SectionHeading>
+            <Link
+              href={`/photos/${photoAlbum.slug}`}
+              className="rounded bg-brand px-4 py-2 text-center font-bold text-white hover:bg-brand-dark"
+            >
+              Voir toutes les photos
+            </Link>
+          </div>
+
+          <div className="mt-8">
+            <PhotoGallery albumTitle={photoAlbum.title} photos={previewPhotos} />
+          </div>
+        </section>
+      ) : null}
     </article>
   );
 }
