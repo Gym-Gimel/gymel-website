@@ -17,6 +17,7 @@ export const PHOTO_ALBUMS: PhotoAlbumConfig[] = [
     cover: "/images/events/fete-125-ans/001.webp",
     description: "Retour en images sur les 125 ans de la Gym de Gimel.",
     imageDirectory: "fete-125-ans",
+    eventSlugs: ["125-ans"],
   },
   {
     slug: "spectacle-2025",
