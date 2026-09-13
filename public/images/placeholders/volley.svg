@@ -1,6 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Photo de cours à remplacer">
-  <rect width="1200" height="675" fill="#fff1f1"/>
-  <circle cx="370" cy="300" r="145" fill="#fff" stroke="#b71313" stroke-width="28"/>
-  <path d="M262 205c70 35 143 48 253 35M250 330c90 20 170 15 265-20M350 160c40 110 43 225 8 355M448 180c-88 82-135 180-132 290" stroke="#19202a" stroke-width="18" fill="none"/>
-  <text x="610" y="340" font-family="Arial, sans-serif" font-size="48" font-weight="700" fill="#19202a">Photo officielle à ajouter</text>
-</svg>
+version https://git-lfs.github.com/spec/v1
+oid sha256:f271712f88f2f2248fdebcd7895c4ebd7a6a1f98c1a7da879e98657bad718f6c
+size 575
