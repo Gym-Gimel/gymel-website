@@ -25,7 +25,7 @@ export function Header() {
         >
           <span className="relative block h-16 w-20">
             <Image
-              src="/images/logo_white.png"
+              src="/images/logo_white.webp"
               alt="Logo Gym de Gimel"
               fill
               sizes="64px"

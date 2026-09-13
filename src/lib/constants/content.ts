@@ -102,7 +102,7 @@ export const generalSponsors = [
   {
     name: "Le Coultre",
     note: "Sponsor de la Gym de Gimel.",
-    image: "/images/sponsors/le-coultre.jpg"
+    image: "/images/sponsors/le-coultre.webp"
   },
   {
     name: "Pizzeria Allaman",
@@ -112,6 +112,6 @@ export const generalSponsors = [
   {
     name: "SB Sport",
     note: "Sponsor de la Gym de Gimel.",
-    image: "/images/sb-sport.webp"
+    image: "/images/sponsors/sb-sport.webp"
   }
 ] as const;

@@ -57,7 +57,7 @@ const jobs: readonly Job[] = [
     ],
     contactEmail: SITE.email,
     subject: "Annonce responsable de la gestion des membres - Gym de Gimel",
-    documentHref: "/documents/Annonce-responsable-gestion-membres.jpeg",
+    documentHref: "/documents/Annonce-responsable-gestion-membres.webp",
     documentLabel: "Voir l'annonce originale",
     imageAlt:
       "Annonce pour le poste bénévole de responsable de la gestion des membres à la Gym de Gimel.",
@@ -78,7 +78,7 @@ const jobs: readonly Job[] = [
     ],
     contactEmail: "secretaire@gymel.ch",
     subject: "Annonce secrétaire - Gym de Gimel",
-    documentHref: "/documents/Annonce-secretaire.jpeg",
+    documentHref: "/documents/Annonce-secretaire.webp",
     documentLabel: "Voir l'annonce originale",
     imageAlt:
       "Annonce pour le poste bénévole de secrétaire au comité de la Gym de Gimel.",

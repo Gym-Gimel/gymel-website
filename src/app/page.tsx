@@ -30,9 +30,8 @@ export default async function HomePage() {
       ["Enfants", "Adultes", "Volley", "Compétition"].includes(course.category),
     )
     .slice(0, 4);
-  const homeEventItems = (featuredItems.length > 0
-    ? featuredItems
-    : [...eventItems, ...calendarItems]
+  const homeEventItems = (
+    featuredItems.length > 0 ? featuredItems : [...eventItems, ...calendarItems]
   )
     .filter((item) => item.status !== "finished")
     .sort((a, b) => compareIsoDatesDesc(a.date, b.date))
@@ -71,7 +70,7 @@ export default async function HomePage() {
           </div>
           <div className="relative min-h-[360px] overflow-hidden rounded-xl bg-brand-soft shadow-soft">
             <Image
-              src="/images/home.png"
+              src="/images/home.webp"
               alt="Visuel temporaire pour la Gym de Gimel"
               fill
               priority

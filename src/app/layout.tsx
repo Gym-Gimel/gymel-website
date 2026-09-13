@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/images/logo.png",
+        url: "/images/logo.webp",
         type: "image/png",
       },
     ],
-    shortcut: "/images/logo.png",
-    apple: "/images/logo.png",
+    shortcut: "/images/logo.webp",
+    apple: "/images/logo.webp",
   },
   openGraph: {
     title: "Gym de Gimel",

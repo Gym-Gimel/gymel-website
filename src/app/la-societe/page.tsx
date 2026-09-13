@@ -65,7 +65,7 @@ export default function SocietyPage() {
         <h2 className="text-2xl font-black text-ink">Le Comité</h2>
         <div className="relative mt-5 aspect-[2560/1493] overflow-hidden rounded-lg bg-stone-100 shadow-soft">
           <Image
-            src="/images/comite.jpg"
+            src="/images/comite.webp"
             alt="Membres du comité de la Gym de Gimel"
             fill
             className="object-cover"
