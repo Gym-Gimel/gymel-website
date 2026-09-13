@@ -6,7 +6,7 @@
 2. Configurer les variables d'environnement.
 3. Lancer le build avec `npm run build`.
 4. Vérifier les pages principales.
-5. Déployer en production uniquement après validation humaine.
+5. Déployer en production après validation du contenu et des formulaires.
 
 ## Source CSV
 
@@ -49,3 +49,24 @@ RESEND_API_KEY=...
 ```
 
 `CONTACT_FORM_FROM` doit correspondre à une adresse ou un domaine validé chez le fournisseur e-mail. Pour passer de la boîte de test à la boîte finale de la société, modifier `CONTACT_FORM_TO`.
+
+## Vérifications avant publication
+
+```bash
+npm run validate:data
+npm run lint
+npm run typecheck
+npm run test
+npm run build
+```
+
+Après le déploiement, vérifier au minimum:
+
+- l'accueil;
+- `/nos-cours`;
+- `/calendrier-sportif`;
+- `/evenements`;
+- `/photos`;
+- un album photo complet;
+- `/contact`;
+- l'envoi réel ou simulé du formulaire de contact selon l'environnement.

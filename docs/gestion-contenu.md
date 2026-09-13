@@ -1,8 +1,8 @@
-# Gestion des contenus CSV
+# Gestion des contenus
 
-Cette documentation explique comment mettre à jour les cours, concours et matchs sans modifier le code.
+Cette documentation explique comment mettre à jour les cours, concours, événements, matchs, documents et albums photos.
 
-## Où sont les fichiers
+## Où sont les fichiers CSV
 
 Dans GitHub, ouvrir le dossier `data/`:
 
@@ -18,7 +18,7 @@ Les modèles vierges sont dans `data/templates/`.
 
 Le site utilise par défaut les fichiers locaux du dossier `data/`. Les CSV distants configurés dans l'environnement ne sont utilisés que si `CSV_SOURCE=remote` est défini.
 
-Si une ligne existe dans le CSV distant mais plus dans le CSV local, elle ne s'affiche donc pas sur le site en mode local. Exemple: une ligne `125-ans-gym-gimel` encore présente dans un CSV distant reste ignorée si elle a été supprimée du CSV local correspondant.
+Si une ligne existe dans le CSV distant mais pas dans le CSV local, elle ne s'affiche donc pas sur le site en mode local.
 
 ## Modifier un fichier
 
@@ -131,6 +131,81 @@ Placer le document dans `public/documents`, puis utiliser un chemin comme:
 ```text
 /documents/programme.pdf
 ```
+
+## Albums photos
+
+Les photos optimisées sont placées dans:
+
+```text
+public/images/events/<dossier-album>/
+```
+
+Exemples actuels:
+
+- `public/images/events/spectacle-2025/`
+- `public/images/events/fete-125-ans/`
+
+Les fichiers peuvent être nommés:
+
+```text
+001.webp
+002.webp
+003.webp
+```
+
+Le site lit automatiquement les fichiers présents dans le dossier. Il n'est pas nécessaire de déclarer chaque photo dans un tableau.
+
+### Déclarer un album
+
+Ajouter une entrée dans `src/lib/photos/albums.ts`:
+
+```ts
+{
+  slug: "fete-annuelle-2027",
+  title: "Fête annuelle 2027",
+  date: "2027",
+  cover: "/images/events/fete-annuelle-2027/001.webp",
+  description: "Retour en images sur la fête annuelle de la Gym de Gimel.",
+  imageDirectory: "fete-annuelle-2027",
+}
+```
+
+- `slug`: URL publique de l'album, par exemple `/photos/fete-annuelle-2027`.
+- `title`: titre affiché sur la carte et la page album.
+- `date`: année ou date courte affichée.
+- `cover`: image de couverture affichée sur `/photos`.
+- `description`: texte court de présentation.
+- `imageDirectory`: nom du dossier dans `public/images/events`.
+
+### Lier un album à une page événement
+
+Pour afficher automatiquement une section `Retour en images` sur une page événement, ajouter `eventSlugs`:
+
+```ts
+eventSlugs: ["soiree-de-gym-2025"]
+```
+
+Le slug doit correspondre à la colonne `slug` dans `data/events.csv`.
+
+### Choisir les photos de sélection
+
+Par défaut, la page événement affiche les 10 premières photos de l'album. Pour choisir une sélection précise, ajouter `previewFileNames`:
+
+```ts
+previewFileNames: ["001.webp", "014.webp", "027.webp", "042.webp"]
+```
+
+Ces fichiers doivent exister dans le dossier de l'album.
+
+### Ajouter un nouvel album
+
+1. Optimiser les photos en WebP.
+2. Créer un dossier dans `public/images/events`.
+3. Nommer les fichiers avec un ordre clair, par exemple `001.webp`, `002.webp`.
+4. Ajouter une entrée dans `src/lib/photos/albums.ts`.
+5. Choisir `cover`.
+6. Ajouter `eventSlugs` si l'album doit apparaître sur une page événement.
+7. Lancer `npm run build` pour vérifier que l'album est généré.
 
 ## En cas d'erreur
 

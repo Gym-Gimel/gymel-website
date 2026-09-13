@@ -11,13 +11,17 @@ Le site utilise Next.js App Router.
 - `/calendrier-sportif/concours/[slug]`: détail de concours sportif.
 - `/evenements`: liste des manifestations non sportives.
 - `/evenements/[slug]`: détail de manifestation.
+- `/photos`: archive des albums photos.
+- `/photos/[slug]`: galerie complète d'un album.
 - `/inscriptions`, `/la-societe`, `/contact`: pages secondaires structurées.
+- `/api/contact`: réception du formulaire de contact.
+- `/api/photos/[slug]`: pagination des photos d'un album.
 
 ## Données
 
 Les CSV sont lus côté serveur par `src/lib/data/loaders.ts`. Par défaut, le site utilise les fichiers locaux de `data/`, même si des URLs distantes sont configurées dans l'environnement. Pour utiliser les CSV distants, il faut définir `CSV_SOURCE=remote`.
 
-Conséquence pratique: si le CSV distant contient une ligne qui n'existe plus dans le CSV local correspondant, elle ne s'affiche pas sur le site tant que `CSV_SOURCE` reste sur `local` ou n'est pas défini. C'est le cas, par exemple, d'une ancienne ligne comme `125-ans-gym-gimel` présente sur un CSV distant mais supprimée du CSV local.
+Conséquence pratique: si le CSV distant contient une ligne qui n'existe pas dans le CSV local correspondant, elle ne s'affiche pas sur le site tant que `CSV_SOURCE` reste sur `local` ou n'est pas défini.
 
 Les URLs distantes sont centralisées dans `src/lib/config.ts`. Si `CSV_SOURCE=remote` est actif et qu'une récupération distante échoue, le site revient au fichier local correspondant.
 
@@ -30,11 +34,27 @@ Les concours sportifs et les manifestations sont séparés par fichier source.
 
 La colonne `category` reste utile pour afficher un libellé comme `Concours de gymnastique`, `Manifestation` ou `Assemblée`, mais elle ne décide plus de la destination publique de l'entrée.
 
-La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestations non sportives. Si une ancienne URL de concours pointe vers un slug devenu événement, elle redirige vers `/evenements/[slug]`.
+La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestations non sportives.
 
 ## Formulaire de contact
 
 La page `/contact` utilise un composant client qui envoie les données à `/api/contact`. La route valide les champs côté serveur, ignore un champ honeypot anti-spam et transmet l'e-mail via Resend lorsque les variables `CONTACT_FORM_PROVIDER`, `CONTACT_FORM_TO`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurées.
+
+## Galerie photos
+
+Les albums sont déclarés dans `src/lib/photos/albums.ts`. Cette configuration contient le slug public, le titre, la date, la couverture, la description, le dossier d'images et, si nécessaire, les slugs d'événements associés.
+
+La lecture des photos se fait côté serveur dans `src/lib/photos/files.ts`:
+
+- lecture du dossier dans `public/images/events`;
+- filtre des fichiers `.webp`;
+- tri naturel par nom de fichier;
+- lecture des dimensions WebP pour fournir `width` et `height`;
+- génération des URLs publiques.
+
+La page `/photos/[slug]` reçoit seulement les 24 premières photos. Les suivantes sont demandées par le composant client `PhotoGallery` à `/api/photos/[slug]`.
+
+La lightbox est implémentée sans dépendance externe lourde. Elle gère Escape, les flèches du clavier, un piège de focus simple, le retour de focus à la fermeture et un geste tactile horizontal.
 
 ## Regroupement des cours
 
