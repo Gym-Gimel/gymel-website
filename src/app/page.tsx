@@ -43,7 +43,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-16">
           <div className="flex flex-col justify-center">
             <p className="text-sm font-black uppercase tracking-wide text-brand">
-              Société sportive à Gimel
+              Société sportive de Gimel
             </p>
             <h1 className="mt-3 text-4xl font-black leading-tight text-ink sm:text-5xl lg:text-6xl">
               Gym de Gimel
