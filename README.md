@@ -8,6 +8,7 @@ Le site présente les cours, le calendrier sportif, les événements, les inscri
 
 - Node.js 20 ou plus récent
 - npm
+- Next.js
 
 ## Installation
 
