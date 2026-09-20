@@ -38,7 +38,7 @@ La route `/calendrier-sportif/concours/[slug]` ne liste donc pas les manifestati
 
 ## Formulaire de contact
 
-La page `/contact` utilise un composant client qui envoie les données à `/api/contact`. La route valide les champs côté serveur, ignore un champ honeypot anti-spam et transmet l'e-mail via Resend lorsque les variables `CONTACT_FORM_PROVIDER`, `CONTACT_FORM_TO`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurées.
+La page `/contact` utilise un composant client qui envoie les données à `/api/contact`. La route valide les champs côté serveur, ignore un champ honeypot anti-spam et transmet l'e-mail via Resend lorsque les variables `CONTACT_FORM_PROVIDER`, `CONTACT_FORM_TO`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurées. `CONTACT_FORM_FROM` doit utiliser une adresse du domaine vérifié `contact.daviddieperink.ch`.
 
 ## Galerie photos
 

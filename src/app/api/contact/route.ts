@@ -49,9 +49,9 @@ async function sendWithResend(message: ContactMessage) {
   const provider = process.env.CONTACT_FORM_PROVIDER;
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FORM_FROM;
-  const to = process.env.CONTACT_FORM_TO ?? "contact@daviddieperink.ch";
+  const to = process.env.CONTACT_FORM_TO;
 
-  if (provider !== "resend" || !apiKey || !from) {
+  if (provider !== "resend" || !apiKey || !from || !to) {
     throw new ContactConfigurationError(
       "Le formulaire n'est pas encore configuré côté serveur."
     );

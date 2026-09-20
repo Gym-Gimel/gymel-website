@@ -44,11 +44,12 @@ Le formulaire POST sur `/api/contact` envoie les messages via Resend. Variables 
 ```env
 CONTACT_FORM_PROVIDER=resend
 CONTACT_FORM_TO=contact@daviddieperink.ch
-CONTACT_FORM_FROM=Gym de Gimel <contact@gymel.ch>
+REGISTRATION_FORM_TO=inscriptions@gymel.ch
+CONTACT_FORM_FROM=Gym de Gimel <gymel@contact.daviddieperink.ch>
 RESEND_API_KEY=...
 ```
 
-`CONTACT_FORM_FROM` doit correspondre à une adresse ou un domaine validé chez le fournisseur e-mail. Pour passer de la boîte de test à la boîte finale de la société, modifier `CONTACT_FORM_TO`.
+Le domaine `contact.daviddieperink.ch` doit être validé chez le fournisseur e-mail. `CONTACT_FORM_FROM` est obligatoire et doit contenir `Gym de Gimel <gymel@contact.daviddieperink.ch>`. Pour passer de la boîte de test à la boîte finale de la société, modifier `CONTACT_FORM_TO`. `REGISTRATION_FORM_TO` est facultatif et permet d'envoyer les inscriptions à une boîte distincte.
 
 ## Vérifications avant publication
 

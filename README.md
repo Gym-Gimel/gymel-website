@@ -34,13 +34,14 @@ CSV_REVALIDATE_SECONDS=300
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 CONTACT_FORM_PROVIDER=resend
 CONTACT_FORM_TO=contact@daviddieperink.ch
-CONTACT_FORM_FROM=
+REGISTRATION_FORM_TO=
+CONTACT_FORM_FROM=Gym de Gimel <gymel@contact.daviddieperink.ch>
 RESEND_API_KEY=
 ```
 
 Si `CSV_SOURCE=remote` est actif et qu'un CSV distant est inaccessible, le site revient au fichier local correspondant.
 
-Le formulaire de contact envoie les messages via Resend lorsque `CONTACT_FORM_PROVIDER=resend`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurés. `CONTACT_FORM_TO` définit la boîte de réception.
+Les formulaires de contact et d'inscription envoient les messages via Resend lorsque `CONTACT_FORM_PROVIDER=resend`, `CONTACT_FORM_FROM` et `RESEND_API_KEY` sont configurés. `CONTACT_FORM_FROM` utilise l'adresse du domaine vérifié `Gym de Gimel <gymel@contact.daviddieperink.ch>`. `CONTACT_FORM_TO` définit la boîte de réception générale. `REGISTRATION_FORM_TO` peut définir une boîte distincte pour les inscriptions et utilise sinon `CONTACT_FORM_TO`.
 
 ## Commandes
 
