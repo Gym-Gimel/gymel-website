@@ -25,23 +25,6 @@ type Job = {
 
 const jobs: readonly Job[] = [
   {
-    title: "Aide-moniteur/trice ou moniteur/trice agrès",
-    group: "Groupe agrès",
-    status: "Recherche active",
-    description:
-      "Le groupe agrès recherche une personne motivée pour accompagner les entraînements, soutenir les gymnastes et participer à la vie du groupe.",
-    details: [
-      "Encadrement des gymnastes pendant les entraînements.",
-      "Soutien technique selon l'expérience et le niveau de formation.",
-      "Collaboration avec les monitrices et moniteurs du groupe.",
-      "Engagement régulier pendant la saison sportive.",
-      "Petite rémunération prévue.",
-      "Réduction sur l'inscription pour la personne engagée et les membres de sa famille.",
-    ],
-    contactEmail: SITE.email,
-    subject: "Annonce agrès - Gym de Gimel",
-  },
-  {
     title: "Responsable de la gestion des membres",
     group: "Comité",
     status: "Entrée en fonction janvier 2027",
