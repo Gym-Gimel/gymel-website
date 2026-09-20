@@ -87,7 +87,7 @@ export const registrationInfo = {
   resignation:
     "Toute démission doit être annoncée oralement au moniteur ou à la monitrice, puis confirmée par écrit à la Gym de Gimel, par e-mail à info@gymel.ch ou par courrier postal.",
   registrationForm:
-    "Pour effectuer une inscription, il faut télécharger le formulaire officiel, le remplir avec les informations demandées, puis l'envoyer par e-mail à info@gymel.ch.",
+    "Si vous ne souhaitez pas utiliser le formulaire en ligne, vous pouvez télécharger le document officiel, le remplir, puis l'envoyer par e-mail à info@gymel.ch.",
   equipment:
     "Pour commander des équipements, il faut télécharger le formulaire officiel, le remplir, puis l'envoyer par e-mail à info@gymel.ch.",
   documents: {

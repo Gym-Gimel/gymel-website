@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
+import { RegistrationForm } from "@/components/registration/registration-form";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { registrationInfo } from "@/lib/constants/content";
 import { SITE } from "@/lib/constants/site";
-import { getCalendarItems, getCourses, getEventItems } from "@/lib/data/loaders";
+import {
+  getCalendarItems,
+  getCourses,
+  getEventItems,
+} from "@/lib/data/loaders";
 import { TextWithEmailLinks } from "@/components/ui/text-with-email-link";
 
 export const metadata: Metadata = {
@@ -36,7 +41,9 @@ export default async function RegistrationPage() {
         {registrationInfo.intro}
       </SectionHeading>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_360px]">
+      <RegistrationForm />
+
+      <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_360px]">
         <section className="grid gap-5">
           <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
             <h2 className="text-xl font-black text-ink">Cotisations</h2>
@@ -53,9 +60,7 @@ export default async function RegistrationPage() {
             </p>
           </article>
           <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
-            <h2 className="text-xl font-black text-ink">
-              Formulaire d'inscription
-            </h2>
+            <h2 className="text-xl font-black text-ink">Formulaire PDF</h2>
             <p className="mt-2 leading-7 text-stone-600">
               <TextWithEmailLinks>
                 {registrationInfo.registrationForm}
@@ -65,7 +70,7 @@ export default async function RegistrationPage() {
               href={registrationInfo.documents.registrationForm}
               className="mt-4 inline-flex rounded bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark"
             >
-              Télécharger le formulaire d'inscription
+              Télécharger le formulaire PDF
             </a>
           </article>
           <article className="rounded-lg border border-stone-200 bg-white p-5 shadow-soft">
@@ -129,9 +134,7 @@ export default async function RegistrationPage() {
             </div>
             <div>
               <dt className="font-black">Cours ouverts</dt>
-              <dd>
-                {openCoursesCount} cours actuellement ouverts.
-              </dd>
+              <dd>{openCoursesCount} cours actuellement ouverts.</dd>
             </div>
             <div>
               <dt className="font-black">Evénements à venir</dt>
