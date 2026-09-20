@@ -20,14 +20,33 @@ describe("RegistrationForm", () => {
     expect(parentName).toBeRequired();
   });
 
-  it("shows an error and focuses the course list when no course is selected", () => {
+  it("validates a touched field and removes its error once corrected", () => {
+    render(<RegistrationForm />);
+    const lastName = screen.getByLabelText("Nom *");
+
+    expect(lastName).toHaveAttribute("aria-invalid", "false");
+    expect(screen.queryByText("Ce champ est trop court.")).not.toBeInTheDocument();
+
+    fireEvent.blur(lastName);
+
+    expect(lastName).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByText("Ce champ est trop court.")).toBeInTheDocument();
+
+    fireEvent.change(lastName, { target: { value: "Dupont" } });
+
+    expect(lastName).toHaveAttribute("aria-invalid", "false");
+    expect(screen.queryByText("Ce champ est trop court.")).not.toBeInTheDocument();
+  });
+
+  it("validates the complete form and focuses the first invalid field on submit", () => {
     render(<RegistrationForm />);
 
     fireEvent.submit(screen.getByRole("form", { name: "Formulaire d'inscription en ligne" }));
 
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "Merci de sélectionner au moins un cours.",
+      "Merci de corriger les champs indiqués avant l'envoi.",
     );
-    expect(screen.getByText("Parents-enfants").closest("div")).toHaveFocus();
+    expect(screen.getByText("Sélectionnez au moins un cours.")).toBeInTheDocument();
+    expect(screen.getByLabelText("Masculin")).toHaveFocus();
   });
 });

@@ -27,16 +27,23 @@ const courseIds = REGISTRATION_COURSES.map((course) => course.id) as [
   ...(typeof REGISTRATION_COURSES)[number]["id"][],
 ];
 
+const requiredText = (min: number, max: number) =>
+  z
+    .string({ required_error: "Ce champ est obligatoire." })
+    .trim()
+    .min(min, "Ce champ est trop court.")
+    .max(max, "Ce champ est trop long.");
+
 const optionalText = (max: number) =>
   z
     .string()
     .trim()
-    .max(max)
+    .max(max, "Ce champ est trop long.")
     .transform((value) => (value.length > 0 ? value : undefined))
     .optional();
 
 const avsNumber = z
-  .string()
+  .string({ required_error: "Indiquez le numéro AVS." })
   .trim()
   .refine((value) => /^756(?:[.\s-]?\d){10}$/.test(value), {
     message: "Le numéro AVS doit contenir 13 chiffres et commencer par 756.",
@@ -44,27 +51,54 @@ const avsNumber = z
 
 export const registrationSchema = z
   .object({
-    gender: z.enum(["Masculin", "Féminin", "Autre"]),
-    lastName: z.string().trim().min(2).max(120),
-    firstName: z.string().trim().min(2).max(120),
+    gender: z.enum(["Masculin", "Féminin", "Autre"], {
+      errorMap: () => ({ message: "Sélectionnez une option." }),
+    }),
+    lastName: requiredText(2, 120),
+    firstName: requiredText(2, 120),
     birthDate: z
-      .string()
-      .date()
-      .refine((value) => value >= "1900-01-01" && value <= new Date().toISOString().slice(0, 10)),
+      .string({ required_error: "Indiquez la date de naissance." })
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Indiquez une date valide.")
+      .refine(
+        (value) =>
+          value >= "1900-01-01" &&
+          value <= new Date().toISOString().slice(0, 10),
+        "Indiquez une date de naissance valide.",
+      ),
     avsNumber,
     parentName: optionalText(160),
-    existingMember: z.enum(["Oui", "Non"]),
+    existingMember: z.enum(["Oui", "Non"], {
+      errorMap: () => ({ message: "Sélectionnez oui ou non." }),
+    }),
     acvgNumber: optionalText(80),
     siblingNames: optionalText(500),
-    address: z.string().trim().min(5).max(240),
-    postalCode: z.string().trim().regex(/^\d{4}$/),
-    city: z.string().trim().min(2).max(120),
-    phone: z.string().trim().min(7).max(40),
-    email: z.string().trim().email().max(254),
-    courses: z.array(z.enum(courseIds)).min(1).max(REGISTRATION_COURSES.length),
-    signerName: z.string().trim().min(2).max(160),
-    statutesAccepted: z.literal("on"),
-    privacyAccepted: z.literal("on"),
+    address: requiredText(5, 240),
+    postalCode: z
+      .string({ required_error: "Indiquez le code postal." })
+      .trim()
+      .regex(/^\d{4}$/, "Le code postal doit contenir 4 chiffres."),
+    city: requiredText(2, 120),
+    phone: requiredText(7, 40),
+    email: z
+      .string({ required_error: "Indiquez l'adresse e-mail." })
+      .trim()
+      .email("Indiquez une adresse e-mail valide.")
+      .max(254, "L'adresse e-mail est trop longue."),
+    courses: z
+      .array(z.enum(courseIds), {
+        required_error: "Sélectionnez au moins un cours.",
+      })
+      .min(1, "Sélectionnez au moins un cours.")
+      .max(REGISTRATION_COURSES.length),
+    signerName: requiredText(2, 160),
+    statutesAccepted: z.literal("on", {
+      errorMap: () => ({ message: "Vous devez accepter les statuts." }),
+    }),
+    privacyAccepted: z.literal("on", {
+      errorMap: () => ({
+        message: "Vous devez confirmer avoir pris connaissance de la déclaration.",
+      }),
+    }),
     website: z.string().trim().max(200).optional(),
   })
   .superRefine((registration, context) => {

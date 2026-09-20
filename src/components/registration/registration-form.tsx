@@ -1,10 +1,12 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FocusEvent, FormEvent, useState } from "react";
 import {
   PARENT_REQUIRED_AFTER,
   REGISTRATION_COURSES,
   REGISTRATION_SEASON,
+  registrationSchema,
+  type Registration,
 } from "@/lib/registration";
 
 type SubmissionState =
@@ -16,25 +18,140 @@ type SubmissionState =
 const inputClassName =
   "min-h-11 rounded border border-stone-300 bg-white px-3 py-2 font-normal text-ink shadow-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 
+const registrationFieldNames = [
+  "gender",
+  "lastName",
+  "firstName",
+  "birthDate",
+  "avsNumber",
+  "parentName",
+  "existingMember",
+  "acvgNumber",
+  "siblingNames",
+  "address",
+  "postalCode",
+  "city",
+  "phone",
+  "email",
+  "courses",
+  "signerName",
+  "statutesAccepted",
+  "privacyAccepted",
+] as const;
+
+type RegistrationFieldName = (typeof registrationFieldNames)[number];
+type ValidationErrors = Partial<Record<RegistrationFieldName, string>>;
+
+function getRegistrationPayload(form: HTMLFormElement) {
+  const formData = new FormData(form);
+  return {
+    ...Object.fromEntries(formData),
+    courses: formData.getAll("courses"),
+  };
+}
+
+function getValidationErrors(payload: unknown) {
+  const result = registrationSchema.safeParse(payload);
+  const errors: ValidationErrors = {};
+
+  if (!result.success) {
+    for (const issue of result.error.issues) {
+      const fieldName = issue.path[0] as RegistrationFieldName | undefined;
+      if (fieldName && !errors[fieldName]) {
+        errors[fieldName] = issue.message;
+      }
+    }
+  }
+
+  return { result, errors };
+}
+
+function FieldError({ id, message }: { id: string; message?: string }) {
+  return message ? (
+    <span
+      id={id}
+      className="mt-1 block font-normal text-red-700"
+      aria-live="polite"
+    >
+      {message}
+    </span>
+  ) : null;
+}
+
+function validatedInputClassName(hasError: boolean) {
+  return `${inputClassName} ${
+    hasError
+      ? "border-red-500 focus:border-red-600 focus:ring-red-200"
+      : ""
+  }`;
+}
+
 export function RegistrationForm() {
   const [submission, setSubmission] = useState<SubmissionState>({
     status: "idle",
   });
   const [birthDate, setBirthDate] = useState("");
+  const [touchedFields, setTouchedFields] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
+  const [validationErrors, setValidationErrors] =
+    useState<ValidationErrors>({});
   const needsParent = birthDate > PARENT_REQUIRED_AFTER;
+
+  function errorFor(fieldName: RegistrationFieldName) {
+    return touchedFields.has(fieldName)
+      ? validationErrors[fieldName]
+      : undefined;
+  }
+
+  function validateCurrentForm(form: HTMLFormElement) {
+    const validation = getValidationErrors(getRegistrationPayload(form));
+    setValidationErrors(validation.errors);
+    return validation;
+  }
+
+  function handleBlur(event: FocusEvent<HTMLFormElement>) {
+    const fieldName = (
+      event.target as unknown as HTMLInputElement | HTMLTextAreaElement
+    ).name as RegistrationFieldName;
+
+    if (!registrationFieldNames.includes(fieldName)) return;
+
+    setTouchedFields((current) => new Set(current).add(fieldName));
+    validateCurrentForm(event.currentTarget);
+  }
+
+  function handleChange(event: FormEvent<HTMLFormElement>) {
+    const target = event.target as unknown as
+      | HTMLInputElement
+      | HTMLTextAreaElement;
+    const fieldName = target.name as RegistrationFieldName;
+
+    if (touchedFields.has(fieldName)) {
+      const validation = validateCurrentForm(event.currentTarget);
+      if (validation.result.success && submission.status === "error") {
+        setSubmission({ status: "idle" });
+      }
+    }
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const formData = new FormData(form);
-    const courses = formData.getAll("courses");
+    const validation = validateCurrentForm(form);
 
-    if (courses.length === 0) {
+    if (!validation.result.success) {
+      setTouchedFields(new Set(registrationFieldNames));
       setSubmission({
         status: "error",
-        message: "Merci de sélectionner au moins un cours.",
+        message: "Merci de corriger les champs indiqués avant l'envoi.",
       });
-      document.getElementById("registration-courses")?.focus();
+      const firstInvalidField = validation.result.error.issues[0]?.path[0];
+      const firstInvalidElement =
+        firstInvalidField === "courses"
+          ? document.getElementById("registration-courses")
+          : form.querySelector<HTMLElement>(`[name="${String(firstInvalidField)}"]`);
+      firstInvalidElement?.focus();
       return;
     }
 
@@ -44,7 +161,7 @@ export function RegistrationForm() {
       const response = await fetch("/api/registration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...Object.fromEntries(formData), courses }),
+        body: JSON.stringify(validation.result.data satisfies Registration),
       });
       const body = (await response.json()) as { message?: string };
 
@@ -54,6 +171,8 @@ export function RegistrationForm() {
 
       form.reset();
       setBirthDate("");
+      setTouchedFields(new Set());
+      setValidationErrors({});
       setSubmission({
         status: "success",
         message:
@@ -79,6 +198,9 @@ export function RegistrationForm() {
       aria-labelledby="registration-form-title"
       className="mt-10 rounded-lg border border-stone-200 bg-white shadow-soft"
       onSubmit={handleSubmit}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      noValidate
     >
       <div className="p-5 sm:p-7">
         <p className="text-sm font-bold uppercase text-brand">
@@ -104,7 +226,12 @@ export function RegistrationForm() {
 
           <div className="sm:col-span-2">
             <span className="text-sm font-bold text-stone-700">Sexe *</span>
-            <div className="mt-2 flex flex-wrap gap-x-6 gap-y-3">
+            <div
+              className="mt-2 flex flex-wrap gap-x-6 gap-y-3"
+              role="radiogroup"
+              aria-invalid={Boolean(errorFor("gender"))}
+              aria-describedby={errorFor("gender") ? "gender-error" : undefined}
+            >
               {["Masculin", "Féminin", "Autre"].map((gender) => (
                 <label
                   key={gender}
@@ -121,65 +248,84 @@ export function RegistrationForm() {
                 </label>
               ))}
             </div>
+            <FieldError id="gender-error" message={errorFor("gender")} />
           </div>
 
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Nom *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("lastName")))}
               name="lastName"
               autoComplete="family-name"
+              aria-invalid={Boolean(errorFor("lastName"))}
+              aria-describedby={errorFor("lastName") ? "lastName-error" : undefined}
               required
             />
+            <FieldError id="lastName-error" message={errorFor("lastName")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Prénom *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("firstName")))}
               name="firstName"
               autoComplete="given-name"
+              aria-invalid={Boolean(errorFor("firstName"))}
+              aria-describedby={errorFor("firstName") ? "firstName-error" : undefined}
               required
             />
+            <FieldError id="firstName-error" message={errorFor("firstName")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Date de naissance *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("birthDate")))}
               name="birthDate"
               type="date"
               autoComplete="bday"
               value={birthDate}
               onChange={(event) => setBirthDate(event.target.value)}
+              aria-invalid={Boolean(errorFor("birthDate"))}
+              aria-describedby={errorFor("birthDate") ? "birthDate-error" : undefined}
               required
             />
+            <FieldError id="birthDate-error" message={errorFor("birthDate")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Numéro AVS *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("avsNumber")))}
               name="avsNumber"
               inputMode="numeric"
               placeholder="756.XXXX.XXXX.XX"
               pattern="756[. 0-9-]{10,16}"
-              aria-describedby="avs-help"
+              aria-invalid={Boolean(errorFor("avsNumber"))}
+              aria-describedby={
+                errorFor("avsNumber") ? "avs-help avsNumber-error" : "avs-help"
+              }
               required
             />
             <span id="avs-help" className="font-normal text-stone-500">
               13 chiffres, en commençant par 756.
             </span>
+            <FieldError id="avsNumber-error" message={errorFor("avsNumber")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700 sm:col-span-2">
             Nom et prénom d'un parent {needsParent ? "*" : ""}
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("parentName")))}
               name="parentName"
               autoComplete="name"
+              aria-invalid={Boolean(errorFor("parentName"))}
+              aria-describedby={
+                errorFor("parentName") ? "parent-help parentName-error" : "parent-help"
+              }
               required={needsParent}
             />
-            <span className="font-normal text-stone-500">
+            <span id="parent-help" className="font-normal text-stone-500">
               Obligatoire pour les enfants de moins de 15 ans révolus au 31
               juillet.
             </span>
+            <FieldError id="parentName-error" message={errorFor("parentName")} />
           </label>
         </fieldset>
       </div>
@@ -193,7 +339,14 @@ export function RegistrationForm() {
             <span className="text-sm font-bold text-stone-700">
               Déjà membre de la société ? *
             </span>
-            <div className="mt-2 flex gap-6">
+            <div
+              className="mt-2 flex gap-6"
+              role="radiogroup"
+              aria-invalid={Boolean(errorFor("existingMember"))}
+              aria-describedby={
+                errorFor("existingMember") ? "existingMember-error" : undefined
+              }
+            >
               {["Oui", "Non"].map((answer) => (
                 <label
                   key={answer}
@@ -210,21 +363,38 @@ export function RegistrationForm() {
                 </label>
               ))}
             </div>
+            <FieldError
+              id="existingMember-error"
+              message={errorFor("existingMember")}
+            />
           </div>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Numéro ACVG
-            <input className={inputClassName} name="acvgNumber" />
-            <span className="font-normal text-stone-500">
+            <input
+              className={validatedInputClassName(Boolean(errorFor("acvgNumber")))}
+              name="acvgNumber"
+              aria-invalid={Boolean(errorFor("acvgNumber"))}
+              aria-describedby={
+                errorFor("acvgNumber") ? "acvg-help acvgNumber-error" : "acvg-help"
+              }
+            />
+            <span id="acvg-help" className="font-normal text-stone-500">
               Si déjà attribué.
             </span>
+            <FieldError id="acvgNumber-error" message={errorFor("acvgNumber")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700 sm:col-span-2">
             Autres enfants membres de la FSG Gimel
             <textarea
-              className={`${inputClassName} min-h-24 resize-y`}
+              className={`${validatedInputClassName(Boolean(errorFor("siblingNames")))} min-h-24 resize-y`}
               name="siblingNames"
               placeholder="Indiquez leurs noms et prénoms, une personne par ligne."
+              aria-invalid={Boolean(errorFor("siblingNames"))}
+              aria-describedby={
+                errorFor("siblingNames") ? "siblingNames-error" : undefined
+              }
             />
+            <FieldError id="siblingNames-error" message={errorFor("siblingNames")} />
           </label>
         </fieldset>
       </div>
@@ -235,51 +405,68 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700 sm:col-span-2">
             Adresse postale *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("address")))}
               name="address"
               autoComplete="street-address"
+              aria-invalid={Boolean(errorFor("address"))}
+              aria-describedby={errorFor("address") ? "address-error" : undefined}
               required
             />
+            <FieldError id="address-error" message={errorFor("address")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Code postal *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("postalCode")))}
               name="postalCode"
               autoComplete="postal-code"
               inputMode="numeric"
               pattern="[0-9]{4}"
+              aria-invalid={Boolean(errorFor("postalCode"))}
+              aria-describedby={
+                errorFor("postalCode") ? "postalCode-error" : undefined
+              }
               required
             />
+            <FieldError id="postalCode-error" message={errorFor("postalCode")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Ville *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("city")))}
               name="city"
               autoComplete="address-level2"
+              aria-invalid={Boolean(errorFor("city"))}
+              aria-describedby={errorFor("city") ? "city-error" : undefined}
               required
             />
+            <FieldError id="city-error" message={errorFor("city")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Téléphone *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("phone")))}
               name="phone"
               type="tel"
               autoComplete="tel"
+              aria-invalid={Boolean(errorFor("phone"))}
+              aria-describedby={errorFor("phone") ? "phone-error" : undefined}
               required
             />
+            <FieldError id="phone-error" message={errorFor("phone")} />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Adresse e-mail *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("email")))}
               name="email"
               type="email"
               autoComplete="email"
+              aria-invalid={Boolean(errorFor("email"))}
+              aria-describedby={errorFor("email") ? "email-error" : undefined}
               required
             />
+            <FieldError id="email-error" message={errorFor("email")} />
           </label>
         </fieldset>
       </div>
@@ -297,6 +484,8 @@ export function RegistrationForm() {
             id="registration-courses"
             className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2"
             tabIndex={-1}
+            aria-invalid={Boolean(errorFor("courses"))}
+            aria-describedby={errorFor("courses") ? "courses-error" : undefined}
           >
             {REGISTRATION_COURSES.map((course) => (
               <label
@@ -318,6 +507,7 @@ export function RegistrationForm() {
               </label>
             ))}
           </div>
+          <FieldError id="courses-error" message={errorFor("courses")} />
         </fieldset>
       </div>
 
@@ -327,17 +517,28 @@ export function RegistrationForm() {
           <label className="grid max-w-xl gap-2 text-sm font-bold text-stone-700">
             Nom et prénom de la personne signataire *
             <input
-              className={inputClassName}
+              className={validatedInputClassName(Boolean(errorFor("signerName")))}
               name="signerName"
               autoComplete="name"
+              aria-invalid={Boolean(errorFor("signerName"))}
+              aria-describedby={
+                errorFor("signerName") ? "signerName-error" : undefined
+              }
               required
             />
+            <FieldError id="signerName-error" message={errorFor("signerName")} />
           </label>
           <label className="flex items-start gap-3 text-sm leading-6 text-stone-700">
             <input
               className="mt-1 size-4 shrink-0 accent-brand"
               type="checkbox"
               name="statutesAccepted"
+              aria-invalid={Boolean(errorFor("statutesAccepted"))}
+              aria-describedby={
+                errorFor("statutesAccepted")
+                  ? "statutesAccepted-error"
+                  : undefined
+              }
               required
             />
             <span>
@@ -345,11 +546,21 @@ export function RegistrationForm() {
               m'engage à respecter les statuts de la Gym de Gimel. *
             </span>
           </label>
+          <FieldError
+            id="statutesAccepted-error"
+            message={errorFor("statutesAccepted")}
+          />
           <label className="flex items-start gap-3 text-sm leading-6 text-stone-700">
             <input
               className="mt-1 size-4 shrink-0 accent-brand"
               type="checkbox"
               name="privacyAccepted"
+              aria-invalid={Boolean(errorFor("privacyAccepted"))}
+              aria-describedby={
+                errorFor("privacyAccepted")
+                  ? "privacyAccepted-error"
+                  : undefined
+              }
               required
             />
             <span>
@@ -365,6 +576,10 @@ export function RegistrationForm() {
               . *
             </span>
           </label>
+          <FieldError
+            id="privacyAccepted-error"
+            message={errorFor("privacyAccepted")}
+          />
           <p className="text-sm leading-6 text-stone-600">
             Le droit à l'image est régi par les statuts. Toute opposition peut
             être communiquée par écrit à{" "}
