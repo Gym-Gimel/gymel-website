@@ -38,12 +38,12 @@ export const committeeMembers = [
     ]
   },
   {
-    role: "Responsable des membres",
+    role: "Responsable des membres & Caissière formatrice",
     name: "Pauline Champendal",
     email: "paulinec@gymel.ch",
     bio: [
       "Native de Gimel, j'y ai grandi entre les sauts, les roulades et les souvenirs de gym. Même si je n'y habite plus depuis mes 18 ans, mon attachement à la société est resté intact !",
-      "Depuis 2019, j'occupe le poste de trésorière, et dès 2025, je vais concentrer davantage mon engagement sur la gestion des membres et la formation.",
+      "Depuis 2019, j'occupe le poste de trésorière, et dès 2025, je vais concentrer davantage mon engagement sur la gestion des membres et la formation, tout en continuant à assurer mon rôle de caissière formatrice.",
       "C'est un plaisir pour moi de contribuer à la vie de notre société et d'aider à la faire évoluer pour les générations futures !"
     ]
   }
