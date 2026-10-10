@@ -3,7 +3,7 @@ export const committeeMembers = [
     role: "Présidente",
     name: "Anne Debonneville Messieux",
     email: "president@gymel.ch",
-    bio: ["Présidente de la Gym de Gimel. La description détaillée n'est pas publiée sur le site actuel."]
+    bio: ["Présidente de la Gym de Gimel."]
   },
   {
     role: "Responsable trésorerie, sponsors et équipements",
