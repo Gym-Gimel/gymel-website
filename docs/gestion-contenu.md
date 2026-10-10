@@ -2,9 +2,11 @@
 
 Cette documentation explique comment mettre à jour les cours, concours, événements, matchs, documents et albums photos.
 
-## Où sont les fichiers CSV
+Pour créer une manifestation ou un concours de A à Z, suivre le [tutoriel d'ajout d'un événement](ajouter-un-evenement.md). Il explique les colonnes, les liens, les statuts, les vérifications et la publication.
 
-Dans GitHub, ouvrir le dossier `data/`:
+## Où modifier les fichiers CSV
+
+Ouvrir le dépôt GitHub séparé [Gym-Gimel/data](https://github.com/Gym-Gimel/data). Les fichiers de contenu sont **à la racine de ce dépôt** :
 
 - `courses.csv`
 - `competitions.csv`
@@ -12,21 +14,23 @@ Dans GitHub, ouvrir le dossier `data/`:
 - `volleyball-men.csv`
 - `volleyball-women.csv`
 
-Les modèles vierges sont dans `data/templates/`.
+Le dossier `data/` du projet Next.js contient des copies locales de secours et les modèles vierges dans `data/templates/`. Il ne sert pas à saisir les mises à jour courantes.
+
+Les PDF, images et albums photos se gèrent dans le dépôt **du site Next.js**, sous `public/` et `src/lib/photos/albums.ts`. Ils ne sont pas stockés dans le dépôt de données CSV.
 
 ## Source utilisée par le site
 
-Le site utilise par défaut les fichiers locaux du dossier `data/`. Les CSV distants configurés dans l'environnement ne sont utilisés que si `CSV_SOURCE=remote` est défini.
-
-Si une ligne existe dans le CSV distant mais pas dans le CSV local, elle ne s'affiche donc pas sur le site en mode local.
+Pour afficher les mises à jour du dépôt séparé, le site doit utiliser `CSV_SOURCE=remote` et les URL CSV de `https://gym-gimel.github.io/data/`. En développement, le mode local lit les copies de secours du projet Next.js. La personne qui gère le déploiement vérifie cette configuration.
 
 ## Modifier un fichier
 
-1. Ouvrir le fichier dans GitHub.
+1. Ouvrir le fichier à la racine de [Gym-Gimel/data](https://github.com/Gym-Gimel/data).
 2. Cliquer sur l'icône de modification.
 3. Ajouter ou modifier une ligne.
 4. Garder la première ligne d'en-têtes.
 5. Enregistrer avec un message clair.
+
+Après l'enregistrement, attendre la publication du CSV par le dépôt séparé, puis vérifier la page du site concernée. Le cache peut retarder l'affichage de quelques minutes. Si la mise à jour n'apparaît pas, demander une vérification de la source CSV configurée pour le site.
 
 ## Dates et heures
 
@@ -37,7 +41,7 @@ Si une ligne existe dans le CSV distant mais pas dans le CSV local, elle ne s'af
 
 ## Cours et créneaux
 
-Dans `courses.csv`, une ligne représente un créneau horaire précis, pas forcément un cours unique visible sur la page `Nos cours`.
+Dans `courses.csv` du dépôt séparé, une ligne représente un créneau horaire précis, pas forcément un cours unique visible sur la page `Nos cours`.
 
 Exemples:
 
@@ -59,7 +63,7 @@ Sur la page `Nos cours`, le visiteur voit un seul cours regroupé. En ouvrant la
 
 Pour ajouter un nouveau créneau à un cours déjà regroupé:
 
-1. ajouter une nouvelle ligne dans `courses.csv`;
+1. ajouter une nouvelle ligne dans `courses.csv` de `Gym-Gimel/data`;
 2. utiliser un `id` unique;
 3. utiliser un `slug` clair;
 4. renseigner le jour, l'heure, le lieu et la remarque;
@@ -97,6 +101,8 @@ Volley:
 
 ## Ajouter un événement ou un concours
 
+Suivre le [tutoriel pas à pas](ajouter-un-evenement.md) pour préparer, saisir, valider et publier une nouvelle entrée.
+
 Les concours sportifs et les manifestations sont séparés dans deux fichiers différents.
 
 - `competitions.csv`: concours de gym et événements sportifs hors volley. Les entrées apparaissent dans `/calendrier-sportif`.
@@ -104,17 +110,7 @@ Les concours sportifs et les manifestations sont séparés dans deux fichiers di
 
 La colonne `category` reste affichée sur le site, mais elle ne décide plus de la page où l'entrée apparaît. C'est le fichier CSV qui décide.
 
-### Exemple de manifestation
-
-```csv
-event-fete-2026,fete-2026,Fête de la gym,2026-06-14,2026-06-14,Gimel,Manifestation,Tous,upcoming,"Description courte",/inscriptions,/documents/programme.pdf,,true
-```
-
-### Exemple de concours sportif
-
-```csv
-competition-agres-2026,concours-agres-2026,Concours agrès,2026-05-17,2026-05-17,Aubonne,Concours de gymnastique,Agrès,upcoming,"Description courte",,/documents/programme.pdf,,false
-```
+Attention : `draft` est un statut visible sur le site et `finished` doit être choisi manuellement après l'événement. Les dates seules ne classent pas une manifestation dans les archives.
 
 ## Ajouter un résultat volley
 
@@ -185,7 +181,7 @@ Pour afficher automatiquement une section `Retour en images` sur une page évén
 eventSlugs: ["soiree-de-gym-2025"]
 ```
 
-Le slug doit correspondre à la colonne `slug` dans `data/events.csv`.
+Le slug doit correspondre à la colonne `slug` dans `events.csv` de `Gym-Gimel/data`.
 
 ### Choisir les photos de sélection
 
@@ -209,4 +205,8 @@ Ces fichiers doivent exister dans le dossier de l'album.
 
 ## En cas d'erreur
 
-Le message indique le fichier, la ligne, la colonne et le format attendu. Corriger uniquement la ligne indiquée, puis relancer la validation.
+Pour les copies locales du projet Next.js, lancer `npm run validate:data` : le message indique le fichier, la ligne, la colonne et le format attendu. Cette commande ne contrôle pas les fichiers du dépôt `Gym-Gimel/data`. Pour une mise à jour éditoriale, vérifier d'abord le CSV publié et l'affichage sur le site ; demander une vérification technique si une ligne manque.
+
+## Contenus à confirmer avant publication
+
+Constat au 10 octobre 2026 : les **copies locales** `data/events.csv` (soirée de gym 2025) et `data/competitions.csv` (concours agrès de démonstration) pointent vers `/documents/resultats-exemple.pdf`, absent de `public/documents/`. Faire valider les résultats officiels, puis ajouter le document et son lien ou retirer ces liens des copies locales. Vérifier également les liens dans le dépôt de données séparé. Le visuel d'accueil `public/images/home.webp` est encore décrit comme temporaire dans le site ; confirmer le visuel officiel avant mise en ligne.
