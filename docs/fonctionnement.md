@@ -24,16 +24,18 @@ Le site doit rester:
 
 ## Contenus
 
-Les contenus réguliers sont majoritairement dans des CSV:
+Les contenus réguliers sont majoritairement dans les CSV du dépôt GitHub séparé [Gym-Gimel/data](https://github.com/Gym-Gimel/data) :
 
 - cours et horaires;
 - concours sportifs;
 - événements non sportifs;
 - matchs de volley.
 
-Chaque fichier est validé avec Zod avant d'être utilisé. Les erreurs indiquent le fichier, la ligne, la colonne et le format attendu.
+Le dossier `data/` de ce projet Next.js contient des copies locales de secours. Chaque CSV lu par le site est validé avec Zod avant d'être utilisé. Les erreurs indiquent le fichier, la ligne, la colonne et le format attendu.
 
 Les documents PDF sont placés dans `public/documents`. Les images publiques sont placées dans `public/images`.
+
+Pour les mises à jour éditoriales, voir [Gestion des contenus](gestion-contenu.md). Le [tutoriel d'ajout d'un événement](ajouter-un-evenement.md) détaille le choix du CSV, les champs et la publication.
 
 ## Albums photos
 
