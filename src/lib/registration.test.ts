@@ -68,4 +68,16 @@ describe("registration validation", () => {
       "Volleyball femmes (CHF 150.-)",
     ]);
   });
+
+  it("accepts Danses latines in the registration form", () => {
+    const result = registrationSchema.safeParse({
+      ...validRegistration,
+      courses: ["danses-latines"],
+    });
+
+    expect(result.success).toBe(true);
+    expect(getRegistrationCourseLabels(["danses-latines"])).toEqual([
+      "Danses latines (CHF 100.–/personne ou CHF 150.–/couple par bloc)",
+    ]);
+  });
 });

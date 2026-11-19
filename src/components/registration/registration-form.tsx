@@ -80,9 +80,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 
 function validatedInputClassName(hasError: boolean) {
   return `${inputClassName} ${
-    hasError
-      ? "border-red-500 focus:border-red-600 focus:ring-red-200"
-      : ""
+    hasError ? "border-red-500 focus:border-red-600 focus:ring-red-200" : ""
   }`;
 }
 
@@ -94,8 +92,9 @@ export function RegistrationForm() {
   const [touchedFields, setTouchedFields] = useState<ReadonlySet<string>>(
     () => new Set(),
   );
-  const [validationErrors, setValidationErrors] =
-    useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {},
+  );
   const needsParent = birthDate > PARENT_REQUIRED_AFTER;
 
   function errorFor(fieldName: RegistrationFieldName) {
@@ -150,7 +149,9 @@ export function RegistrationForm() {
       const firstInvalidElement =
         firstInvalidField === "courses"
           ? document.getElementById("registration-courses")
-          : form.querySelector<HTMLElement>(`[name="${String(firstInvalidField)}"]`);
+          : form.querySelector<HTMLElement>(
+              `[name="${String(firstInvalidField)}"]`,
+            );
       firstInvalidElement?.focus();
       return;
     }
@@ -258,7 +259,9 @@ export function RegistrationForm() {
               name="lastName"
               autoComplete="family-name"
               aria-invalid={Boolean(errorFor("lastName"))}
-              aria-describedby={errorFor("lastName") ? "lastName-error" : undefined}
+              aria-describedby={
+                errorFor("lastName") ? "lastName-error" : undefined
+              }
               required
             />
             <FieldError id="lastName-error" message={errorFor("lastName")} />
@@ -266,11 +269,15 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Prénom *
             <input
-              className={validatedInputClassName(Boolean(errorFor("firstName")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("firstName")),
+              )}
               name="firstName"
               autoComplete="given-name"
               aria-invalid={Boolean(errorFor("firstName"))}
-              aria-describedby={errorFor("firstName") ? "firstName-error" : undefined}
+              aria-describedby={
+                errorFor("firstName") ? "firstName-error" : undefined
+              }
               required
             />
             <FieldError id="firstName-error" message={errorFor("firstName")} />
@@ -278,14 +285,18 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Date de naissance *
             <input
-              className={validatedInputClassName(Boolean(errorFor("birthDate")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("birthDate")),
+              )}
               name="birthDate"
               type="date"
               autoComplete="bday"
               value={birthDate}
               onChange={(event) => setBirthDate(event.target.value)}
               aria-invalid={Boolean(errorFor("birthDate"))}
-              aria-describedby={errorFor("birthDate") ? "birthDate-error" : undefined}
+              aria-describedby={
+                errorFor("birthDate") ? "birthDate-error" : undefined
+              }
               required
             />
             <FieldError id="birthDate-error" message={errorFor("birthDate")} />
@@ -293,7 +304,9 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Numéro AVS *
             <input
-              className={validatedInputClassName(Boolean(errorFor("avsNumber")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("avsNumber")),
+              )}
               name="avsNumber"
               inputMode="numeric"
               placeholder="756.XXXX.XXXX.XX"
@@ -312,12 +325,16 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700 sm:col-span-2">
             Nom et prénom d'un parent {needsParent ? "*" : ""}
             <input
-              className={validatedInputClassName(Boolean(errorFor("parentName")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("parentName")),
+              )}
               name="parentName"
               autoComplete="name"
               aria-invalid={Boolean(errorFor("parentName"))}
               aria-describedby={
-                errorFor("parentName") ? "parent-help parentName-error" : "parent-help"
+                errorFor("parentName")
+                  ? "parent-help parentName-error"
+                  : "parent-help"
               }
               required={needsParent}
             />
@@ -325,7 +342,10 @@ export function RegistrationForm() {
               Obligatoire pour les enfants de moins de 15 ans révolus au 31
               juillet.
             </span>
-            <FieldError id="parentName-error" message={errorFor("parentName")} />
+            <FieldError
+              id="parentName-error"
+              message={errorFor("parentName")}
+            />
           </label>
         </fieldset>
       </div>
@@ -371,17 +391,24 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Numéro ACVG
             <input
-              className={validatedInputClassName(Boolean(errorFor("acvgNumber")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("acvgNumber")),
+              )}
               name="acvgNumber"
               aria-invalid={Boolean(errorFor("acvgNumber"))}
               aria-describedby={
-                errorFor("acvgNumber") ? "acvg-help acvgNumber-error" : "acvg-help"
+                errorFor("acvgNumber")
+                  ? "acvg-help acvgNumber-error"
+                  : "acvg-help"
               }
             />
             <span id="acvg-help" className="font-normal text-stone-500">
               Si déjà attribué.
             </span>
-            <FieldError id="acvgNumber-error" message={errorFor("acvgNumber")} />
+            <FieldError
+              id="acvgNumber-error"
+              message={errorFor("acvgNumber")}
+            />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700 sm:col-span-2">
             Autres enfants membres de la FSG Gimel
@@ -394,7 +421,10 @@ export function RegistrationForm() {
                 errorFor("siblingNames") ? "siblingNames-error" : undefined
               }
             />
-            <FieldError id="siblingNames-error" message={errorFor("siblingNames")} />
+            <FieldError
+              id="siblingNames-error"
+              message={errorFor("siblingNames")}
+            />
           </label>
         </fieldset>
       </div>
@@ -409,7 +439,9 @@ export function RegistrationForm() {
               name="address"
               autoComplete="street-address"
               aria-invalid={Boolean(errorFor("address"))}
-              aria-describedby={errorFor("address") ? "address-error" : undefined}
+              aria-describedby={
+                errorFor("address") ? "address-error" : undefined
+              }
               required
             />
             <FieldError id="address-error" message={errorFor("address")} />
@@ -417,7 +449,9 @@ export function RegistrationForm() {
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Code postal *
             <input
-              className={validatedInputClassName(Boolean(errorFor("postalCode")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("postalCode")),
+              )}
               name="postalCode"
               autoComplete="postal-code"
               inputMode="numeric"
@@ -428,7 +462,10 @@ export function RegistrationForm() {
               }
               required
             />
-            <FieldError id="postalCode-error" message={errorFor("postalCode")} />
+            <FieldError
+              id="postalCode-error"
+              message={errorFor("postalCode")}
+            />
           </label>
           <label className="grid gap-2 text-sm font-bold text-stone-700">
             Ville *
@@ -477,8 +514,8 @@ export function RegistrationForm() {
             Cours souhaités
           </legend>
           <p className="mt-1 text-sm text-stone-600">
-            Plusieurs choix sont possibles. Les tarifs indiqués couvrent une
-            année scolaire.
+            Plusieurs choix sont possibles. Les tarifs et conditions varient
+            selon le cours ; consultez sa fiche avant de vous inscrire.
           </p>
           <div
             id="registration-courses"
@@ -500,7 +537,7 @@ export function RegistrationForm() {
                 />
                 <span className="flex flex-1 justify-between gap-3">
                   <span>{course.label}</span>
-                  <span className="whitespace-nowrap font-bold text-ink">
+                  <span className="text-right font-bold text-ink">
                     {course.price}
                   </span>
                 </span>
@@ -517,7 +554,9 @@ export function RegistrationForm() {
           <label className="grid max-w-xl gap-2 text-sm font-bold text-stone-700">
             Nom et prénom de la personne signataire *
             <input
-              className={validatedInputClassName(Boolean(errorFor("signerName")))}
+              className={validatedInputClassName(
+                Boolean(errorFor("signerName")),
+              )}
               name="signerName"
               autoComplete="name"
               aria-invalid={Boolean(errorFor("signerName"))}
@@ -526,7 +565,10 @@ export function RegistrationForm() {
               }
               required
             />
-            <FieldError id="signerName-error" message={errorFor("signerName")} />
+            <FieldError
+              id="signerName-error"
+              message={errorFor("signerName")}
+            />
           </label>
           <label className="flex items-start gap-3 text-sm leading-6 text-stone-700">
             <input

@@ -18,6 +18,7 @@ export const REGISTRATION_COURSES = [
   { id: "gym-du-dos", label: "Gym du dos - Back to back", price: "CHF 320.-" },
   { id: "equilibre-renforcement", label: "Equilibre & renforcement", price: "CHF 320.-" },
   { id: "fascias", label: "Gym Fascias", price: "CHF 320.-" },
+  { id: "danses-latines", label: "Danses latines", price: "CHF 100.–/personne ou CHF 150.–/couple par bloc" },
   { id: "volleyball-hommes", label: "Volleyball hommes", price: "CHF 150.-" },
   { id: "volleyball-femmes", label: "Volleyball femmes", price: "CHF 150.-" },
 ] as const;

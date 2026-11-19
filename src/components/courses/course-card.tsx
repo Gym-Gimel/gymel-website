@@ -16,7 +16,7 @@ export function CourseCard({ course }: { course: CourseGroup }) {
             src={course.image}
             alt={course.name}
             fill
-            className="object-cover"
+            className={`object-cover ${course.slug === "danses-latines" ? "object-top" : ""}`}
             sizes="(min-width: 1024px) 33vw, 100vw"
           />
         ) : null}
