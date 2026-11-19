@@ -19,6 +19,7 @@ export type Course = {
   registrationUrl?: string;
   restartDate?: string;
   note?: string;
+  details?: string[];
 };
 
 export type CourseGroup = {

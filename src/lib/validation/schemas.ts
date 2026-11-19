@@ -52,7 +52,12 @@ export const courseSchema = z.object({
   image: relativeOrAbsoluteUrl,
   registrationUrl: relativeOrAbsoluteUrl,
   restartDate: shortDate,
-  note: optionalText
+  note: optionalText,
+  details: z
+    .string()
+    .trim()
+    .transform((value) => value.split(";").map((item) => item.trim()).filter(Boolean))
+    .optional()
 });
 
 export const competitionSchema = z

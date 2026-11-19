@@ -75,6 +75,8 @@ Exemple: si un nouveau créneau `volley-mixte` doit apparaître dans la fiche `V
 
 Si le cours ne doit pas être regroupé avec un autre, il suffit d'ajouter une ligne dans `courses.csv` avec un slug unique. Le cours apparaîtra automatiquement comme une carte séparée sur `Nos cours`.
 
+La colonne facultative `details` contient des informations pratiques affichées sur la fiche du cours. Séparer les points par `;` et entourer la cellule de guillemets si elle contient des virgules. Les anciens CSV sans cette colonne restent valides. Le tarif dans `price` est affiché sous le libellé « Tarif » ; préciser « par bloc » lorsqu'il ne s'agit pas d'un prix annuel.
+
 ## Statuts autorisés
 
 Cours:

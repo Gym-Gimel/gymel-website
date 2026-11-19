@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { TextWithEmailLinks } from "@/components/ui/text-with-email-link";
 import { getCourseGroupBySlug, getCourseGroups } from "@/lib/data/loaders";
 
 export async function generateStaticParams() {
@@ -48,7 +49,7 @@ export default async function CourseDetailPage({
               src={course.image}
               alt=""
               fill
-              className="object-cover"
+              className={`object-cover ${course.slug === "danses-latines" ? "object-top" : ""}`}
               sizes="(min-width: 1024px) 960px, calc(100vw - 32px)"
               priority
             />
@@ -111,10 +112,20 @@ export default async function CourseDetailPage({
                         <dd className="mt-1">{session.location}</dd>
                       </div>
                       <div>
-                        <dt className="font-black text-ink">Cotisation</dt>
+                        <dt className="font-black text-ink">Tarif</dt>
                         <dd className="mt-1">{session.price}</dd>
                       </div>
                     </dl>
+                    {session.details?.length ? (
+                      <div className="mt-5 border-t border-stone-200 pt-4">
+                        <h4 className="font-black text-ink">À savoir</h4>
+                        <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-6 text-stone-700">
+                          {session.details.map((detail) => (
+                            <li key={detail}>{detail}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
                   </article>
                 ))}
               </div>
@@ -146,7 +157,9 @@ export default async function CourseDetailPage({
                       course.sessions.flatMap((session) => session.monitors),
                     ),
                   ].map((monitor) => (
-                    <span key={monitor}>{monitor}</span>
+                    <TextWithEmailLinks key={monitor}>
+                      {monitor}
+                    </TextWithEmailLinks>
                   ))}
                 </dd>
               </div>
